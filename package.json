@@ -1,5 +1,5 @@
 {
-  "name": "frontend_l4_chat_project",
+  "name": "frontend-project-lvl4",
   "version": "0.0.1",
   "description": "",
   "main": "server/index.js",
@@ -17,9 +17,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:hexlet-components/projects-frontend-l4-server.git"
+    "url": "https://github.com/ysemenyuk/frontend-project-lvl4"
   },
-  "author": "Kirill Mokevnin",
+  "author": "yuriy.semenyuk",
   "license": "ISC",
   "homepage": "",
   "dependencies": {
