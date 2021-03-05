@@ -1,15 +1,19 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 import ChannelsList from './ChannelsList.jsx';
 import ChatBox from './ChatBox.jsx';
 import NewMessageForm from './NewMessageForm.jsx';
 
 const App = (gon) => {
-  console.log('app gon', gon);
+  const { gon: { channels, currentChannelId } } = gon;
+  // console.log('app gon', gon);
 
-  const { gon: { channels, messages, currentChannelId } } = gon;
-  console.log('app channels', channels);
-  console.log('app messages', messages);
+  // const currentChannelId = useSelector((state) => state.chat.currentChannelId);
+  // const channels = useSelector((state) => state.chat.channels);
+  const messages = useSelector((state) => state.chat.messages);
+
+  // console.log('app state messages', messages);
 
   return (
     <div className="row h-100 pb-3">

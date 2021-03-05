@@ -1,13 +1,20 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { changeInput, addMessage } from './chatSlice.js';
 
 const NewMessageForm = () => {
+  const inputValue = useSelector((state) => state.chat.inputValue);
+  const dispatch = useDispatch();
+
   const inputHandler = (e) => {
-    console.log('input', e.target.value);
+    // console.log('input', e.target.value);
+    dispatch(changeInput(e.target.value));
   };
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    console.log('submit', e.target.value);
+    // console.log('submit', inputValue);
+    dispatch(addMessage(inputValue));
   };
 
   return (
@@ -15,7 +22,7 @@ const NewMessageForm = () => {
       <form noValidate="" className="new-message-form" onSubmit={onSubmitHandler}>
         <div className="form-group">
           <div className="input-group">
-            <input onChange={inputHandler} name="body" aria-label="body" className="mr-2 form-control" value="" />
+            <input onChange={inputHandler} value={inputValue} name="body" aria-label="body" className="mr-2 form-control" />
             <button aria-label="submit" type="submit" className="btn btn-primary">Submit</button>
             <div className="d-block invalid-feedback">&nbsp;</div>
           </div>

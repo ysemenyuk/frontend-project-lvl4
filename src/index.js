@@ -1,7 +1,5 @@
 // @ts-nocheck
 
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import 'bootstrap/js/dist/modal.js';
 import 'bootstrap';
 
 import 'core-js/stable';

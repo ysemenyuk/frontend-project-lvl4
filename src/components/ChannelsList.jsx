@@ -7,7 +7,7 @@ const ChannelsList = (props) => {
 
   const channelsList = channels.map(({ id, name, removable }) => {
     const currentClass = currentChannelId === id ? 'btn-primary' : 'btn-light';
-    if (removable === true) {
+    if (removable === false) {
       return (
         <li key={id} className="nav-item">
           <button type="button" className={`nav-link btn-block mb-2 text-left btn ${currentClass}`}>{name}</button>
