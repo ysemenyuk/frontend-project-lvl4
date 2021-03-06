@@ -2,7 +2,7 @@
 import React from 'react';
 
 const ChannelsList = (props) => {
-  console.log('ChannelsList props', props);
+  // console.log('ChannelsList props', props);
   const { channels, currentChannelId } = props;
 
   const channelsList = channels.map(({ id, name, removable }) => {

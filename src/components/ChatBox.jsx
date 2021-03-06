@@ -2,7 +2,7 @@ import React from 'react';
 // import { useSelector, useDispatch } from 'react-redux';
 
 const ChatBox = (props) => {
-  console.log('ChatBox props', props);
+  // console.log('ChatBox props', props);
 
   const { messages } = props;
   const messagesList = messages.map((message) => (

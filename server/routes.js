@@ -112,6 +112,7 @@ export default (app, io, defaultState = {}) => {
       reply.send(response);
     })
     .post('/api/v1/channels/:channelId/messages', (req, reply) => {
+      // console.log('server req.body', req.body);
       const { data: { attributes } } = req.body;
       const message = {
         ...attributes,
@@ -130,4 +131,11 @@ export default (app, io, defaultState = {}) => {
       reply.send(data);
       io.emit('newMessage', data);
     });
+
+  io.on('connection', (socket) => {
+    console.log('a user connected');
+    socket.on('disconnect', () => {
+      console.log('user disconnected');
+    });
+  });
 };

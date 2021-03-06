@@ -7,22 +7,19 @@ export const chatSlice = createSlice({
     currentChannelId: null,
     channels: [],
     messages: [],
-    inputValue: '',
   },
   reducers: {
-    changeInput: (state, action) => {
-      // console.log('changeInput', action.payload);
-      state.inputValue = action.payload;
-    },
     addMessage: (state, action) => {
-      // console.log('addMessage', action.payload);
-      const message = { id: action.payload, nickname: 'nickname', text: action.payload };
-      state.messages.push(message);
-      state.inputValue = '';
+      console.log('addMessage', action.payload);
+      state.messages.push(action.payload);
+    },
+    addChannel: (state, action) => {
+      console.log('addChannel', action.payload);
+      state.channels.push(action.payload);
     },
   },
 });
 
-export const { changeInput, addMessage } = chatSlice.actions;
+export const { addMessage, addChannel } = chatSlice.actions;
 
 export default chatSlice.reducer;

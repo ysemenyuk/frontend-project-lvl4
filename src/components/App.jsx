@@ -1,16 +1,18 @@
+/* eslint-disable import/no-cycle */
 import React from 'react';
 import { useSelector } from 'react-redux';
 
 import ChannelsList from './ChannelsList.jsx';
 import ChatBox from './ChatBox.jsx';
 import NewMessageForm from './NewMessageForm.jsx';
+import ApiTest from './ApiTest.jsx';
 
-const App = (gon) => {
-  const { gon: { channels, currentChannelId } } = gon;
+const App = () => {
+  // const { gon: { channels, currentChannelId } } = gon;
   // console.log('app gon', gon);
 
-  // const currentChannelId = useSelector((state) => state.chat.currentChannelId);
-  // const channels = useSelector((state) => state.chat.channels);
+  const currentChannelId = useSelector((state) => state.chat.currentChannelId);
+  const channels = useSelector((state) => state.chat.channels);
   const messages = useSelector((state) => state.chat.messages);
 
   // console.log('app state messages', messages);
@@ -30,6 +32,7 @@ const App = (gon) => {
         <div className="d-flex flex-column h-100">
           <ChatBox messages={messages} />
           <NewMessageForm />
+          <ApiTest />
         </div>
       </div>
 
