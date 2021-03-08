@@ -10,7 +10,7 @@ import faker from 'faker';
 import Cookies from 'js-cookie';
 
 import App from './components/App.jsx';
-import reducer, { channelAdded, channelsReceived, messageAdded, messagesReceived, setCurrentChannel } from './store.js';
+import reducer, { channelAdded, messageAdded } from './store.js';
 
 export const AppContext = React.createContext();
 
@@ -20,11 +20,11 @@ export default (gon) => {
 
   const store = configureStore({
     reducer,
+    preloadedState: {
+      channels: { channels, currentChannelId },
+      messages: { messages },
+    },
   });
-
-  store.dispatch(channelsReceived(channels));
-  store.dispatch(messagesReceived(messages));
-  store.dispatch(setCurrentChannel(currentChannelId));
 
   console.log('init store.getState()', store.getState());
 
@@ -34,14 +34,12 @@ export default (gon) => {
     console.log('socet newMessage responce', responce);
     const message = responce.data.attributes;
     store.dispatch(messageAdded(message));
-    console.log('socket.on newMessage store.getState()', store.getState());
   });
 
   socket.on('newChannel', (responce) => {
     console.log('socet newChannel responce', responce);
     const channel = responce.data.attributes;
     store.dispatch(channelAdded(channel));
-    console.log('socket.on newChannel store.getState()', store.getState());
   });
 
   let nickname = Cookies.get('nickname');

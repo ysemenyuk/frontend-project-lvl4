@@ -1,21 +1,24 @@
 /* eslint-disable import/no-cycle */
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useStore } from 'react-redux';
 
 import ChannelsList from './ChannelsList.jsx';
 import ChatBox from './ChatBox.jsx';
 import NewMessageForm from './NewMessageForm.jsx';
 import ApiTest from './ApiTest.jsx';
 
+import { channelsSelectors, messagesSelectors } from '../store.js';
+
 const App = () => {
-  // const { gon: { channels, currentChannelId } } = gon;
-  // console.log('app gon', gon);
+  // const channels = useSelector((state) => state.channels.channels);
+  // const messages = useSelector((state) => state.messages.messages);
+  // const currentChannelId = useSelector((state) => state.channels.currentChannelId);
 
-  const currentChannelId = useSelector((state) => state.chat.currentChannelId);
-  const channels = useSelector((state) => state.chat.channels);
-  const messages = useSelector((state) => state.chat.messages);
+  const store = useStore();
+  console.log('app store.getState()', store.getState());
 
-  // console.log('app state messages', messages);
+  const channels = channelsSelectors.selectAll(store.getState());
+  const messages = messagesSelectors.selectAll(store.getState());
 
   return (
     <div className="row h-100 pb-3">
@@ -25,7 +28,7 @@ const App = () => {
           <span>Channels</span>
           <button type="button" className="ml-auto p-0 btn btn-link">+</button>
         </div>
-        <ChannelsList channels={channels} currentChannelId={currentChannelId} />
+        <ChannelsList channels={channels} />
       </div>
 
       <div className="col h-100">

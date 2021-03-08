@@ -8,7 +8,7 @@ import { AppContext } from '../init.jsx';
 import { apiAddMessage } from '../services/apiService.js';
 
 const NewMessageForm = () => {
-  const channelId = useSelector((state) => state.chat.currentChannelId);
+  const channelId = useSelector((state) => state.channels.currentChannelId);
   const nickname = useContext(AppContext);
 
   const formik = useFormik({
@@ -21,10 +21,10 @@ const NewMessageForm = () => {
         .required('Required'),
     }),
     onSubmit: (values, { setSubmitting, resetForm, setFieldError }) => {
-      console.log('values', values);
+      // console.log('values', values);
       apiAddMessage({ nickname, channelId, text: values.messageText })
         .then((responce) => {
-          console.log('onSubmitHandler responce', responce);
+          console.log('onSubmitHandler responce', responce.data.data.attributes);
           setSubmitting(false);
           resetForm();
         })
