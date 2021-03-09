@@ -1,7 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import { channelsAdapter } from '../store/channelsList.js';
-import { messagesAdapter } from '../store/chatBox.js';
+import { channelsAdapter, messagesAdapter } from '../store/index.js';
 
 export const currentChannelSelector = (state) => state.chat.currentChannelId;
 export const channelsSelector = (state) => channelsAdapter.getSelectors().selectAll(state.channels);
@@ -13,3 +12,5 @@ export const currentChannelMessagesSelector = createSelector(
   (messages, currentChannelId) => messages
     .filter(({ channelId }) => channelId === currentChannelId),
 );
+
+export const modalSelector = (state) => state.modal;

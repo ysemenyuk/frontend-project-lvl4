@@ -10,7 +10,7 @@ const ChatBox = () => {
     <div id="messages-box" className="chat-messages overflow-auto mb-3">
       {currentChannelMessages.map((message) => (
         <div key={message.id} className="text-break">
-          {`${message.nickname} : ${message.text}`}
+          {`${message.nickname}: ${message.text}`}
         </div>
       ))}
     </div>

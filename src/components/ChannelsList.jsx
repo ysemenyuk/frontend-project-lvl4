@@ -3,7 +3,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { channelsSelector, currentChannelSelector } from '../selectors/index.js';
-import { setCurrentChannel } from '../store/app.js';
+import { setCurrentChannel } from '../store/index.js';
 
 const ChannelsList = () => {
   const dispatch = useDispatch();
