@@ -1,18 +1,15 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
-import { useSelector, useDispatch, useStore } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
-import { setCurrentChannel } from '../store.js';
+import { channelsSelector, currentChannelSelector } from '../selectors/index.js';
+import { setCurrentChannel } from '../store/app.js';
 
-const ChannelsList = (props) => {
-  // console.log('ChannelsList props', props);
-  const { channels } = props;
+const ChannelsList = () => {
   const dispatch = useDispatch();
-  const currentChannelId = useSelector((state) => state.channels.currentChannelId);
+  const channels = useSelector(channelsSelector);
+  const currentChannelId = useSelector(currentChannelSelector);
   const setCurrent = (id) => () => dispatch(setCurrentChannel(id));
-
-  const store = useStore();
-  console.log('ChannelsList store.getState()', store.getState());
 
   return (
     <ul className="nav flex-column nav-pills nav-fill">

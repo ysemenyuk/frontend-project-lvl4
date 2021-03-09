@@ -10,7 +10,8 @@ import faker from 'faker';
 import Cookies from 'js-cookie';
 
 import App from './components/App.jsx';
-import reducer, { channelAdded, channelsReceived, messageAdded, messagesReceived, setCurrentChannel } from './store.js';
+
+import reducer, { setCurrentChannel, addChannel, receiveChannels, addMessage, receiveMessages } from './store/index.js';
 
 export const AppContext = React.createContext();
 
@@ -22,26 +23,22 @@ export default (gon) => {
     reducer,
   });
 
-  store.dispatch(channelsReceived(channels));
-  store.dispatch(messagesReceived(messages));
+  store.dispatch(receiveChannels(channels));
+  store.dispatch(receiveMessages(messages));
   store.dispatch(setCurrentChannel(currentChannelId));
-
-  console.log('init store.getState()', store.getState());
 
   const socket = io();
 
   socket.on('newMessage', (responce) => {
-    console.log('socet newMessage responce', responce);
+    // console.log('socet newMessage responce', responce);
     const message = responce.data.attributes;
-    store.dispatch(messageAdded(message));
-    console.log('socket.on newMessage store.getState()', store.getState());
+    store.dispatch(addMessage(message));
   });
 
   socket.on('newChannel', (responce) => {
-    console.log('socet newChannel responce', responce);
+    // console.log('socet newChannel responce', responce);
     const channel = responce.data.attributes;
-    store.dispatch(channelAdded(channel));
-    console.log('socket.on newChannel store.getState()', store.getState());
+    store.dispatch(addChannel(channel));
   });
 
   let nickname = Cookies.get('nickname');

@@ -1,40 +1,45 @@
 import React from 'react';
-import { apiAddMessage, apiAddChannel, apiGetChannels } from '../services/apiService.js';
+import axios from 'axios';
+
+import routes from '../routes.js';
 
 const ApiTest = () => {
-  const apiAddMessageHandler = (e) => {
+  const testAddMessageHandler = (e) => {
     e.preventDefault();
-    apiAddMessage({ channelId: 1, nickname: 'nickname', text: 'test message' })
+    const url = routes.channelMessagesPath(1);
+    axios.post(url, {
+      data: {
+        attributes: { nickname: 'test nickname', text: 'test text' },
+      },
+    })
       .then((responce) => {
-        console.log('apiAddMessage responce', responce);
+        console.log('testAddMessageHandler responce', responce.data.data.attributes);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => {
+        console.log('testAddMessageHandler error', err.message);
+      });
   };
 
-  const apiAddChannelHandler = (e) => {
+  const testAddChannelHandler = (e) => {
     e.preventDefault();
-    apiAddChannel({ name: 'test channel' })
+    const url = routes.channelsPath();
+    axios.post(url, {
+      data: {
+        attributes: { name: 'test channel name' },
+      },
+    })
       .then((responce) => {
-        console.log('apiAddChannel responce', responce);
+        console.log('testAddChannelHandler responce', responce.data.data.attributes);
       })
-      .catch((err) => console.log(err.message));
-  };
-
-  const apiGetChannelsHandler = (e) => {
-    e.preventDefault();
-    apiGetChannels()
-      .then((responce) => {
-        console.log('apiGetChannels responce', responce);
-      })
-      .catch((err) => console.log(err.message));
+      .catch((err) => {
+        console.log('testAddChannelHandler error', err.message);
+      });
   };
 
   return (
     <div>
-      <button onClick={apiAddMessageHandler} type="button" className="btn btn-primary">apiAddMessage</button>
-      <button onClick={apiAddChannelHandler} type="button" className="btn btn-primary">apiAddChannel</button>
-      <button onClick={apiGetChannelsHandler} type="button" className="btn btn-primary">apiGetChannels</button>
-
+      <button onClick={testAddMessageHandler} type="button" className="btn btn-primary">apiAddMessage</button>
+      <button onClick={testAddChannelHandler} type="button" className="btn btn-primary">apiAddChannel</button>
     </div>
   );
 };

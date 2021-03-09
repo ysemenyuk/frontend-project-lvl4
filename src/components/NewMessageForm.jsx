@@ -3,12 +3,15 @@ import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import axios from 'axios';
+
+import routes from '../routes.js';
 
 import { AppContext } from '../init.jsx';
-import { apiAddMessage } from '../services/apiService.js';
+import { currentChannelSelector } from '../selectors/index.js';
 
 const NewMessageForm = () => {
-  const channelId = useSelector((state) => state.channels.currentChannelId);
+  const channelId = useSelector(currentChannelSelector);
   const nickname = useContext(AppContext);
 
   const formik = useFormik({
@@ -21,16 +24,20 @@ const NewMessageForm = () => {
         .required('Required'),
     }),
     onSubmit: (values, { setSubmitting, resetForm, setFieldError }) => {
-      // console.log('values', values);
-      apiAddMessage({ nickname, channelId, text: values.messageText })
+      const url = routes.channelMessagesPath(channelId);
+      axios.post(url, {
+        data: {
+          attributes: { nickname, text: values.messageText },
+        },
+      })
         .then((responce) => {
           console.log('onSubmitHandler responce', responce.data.data.attributes);
           setSubmitting(false);
           resetForm();
         })
         .catch((err) => {
-          console.log(err.message);
-          setFieldError('network', 'network error');
+          console.log('onSubmitHandler error', err.message);
+          setFieldError('network', err.message);
         });
     },
   });
