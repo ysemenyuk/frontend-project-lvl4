@@ -11,7 +11,9 @@ import Cookies from 'js-cookie';
 
 import App from './components/App.jsx';
 
-import reducer, { setCurrentChannel, addChannel, receiveChannels, addMessage, receiveMessages } from './store/index.js';
+import reducer, {
+  setCurrentChannel, addChannel, removeChannel, receiveChannels, addMessage, receiveMessages,
+} from './store/index.js';
 
 export const AppContext = React.createContext();
 
@@ -39,6 +41,12 @@ export default (gon) => {
     // console.log('socet newChannel responce', responce);
     const channel = responce.data.attributes;
     store.dispatch(addChannel(channel));
+  });
+
+  socket.on('removeChannel', (responce) => {
+    console.log('socet removeChannel responce', responce);
+    const channelId = responce.data.id;
+    store.dispatch(removeChannel(channelId));
   });
 
   let nickname = Cookies.get('nickname');

@@ -6,7 +6,7 @@ import { Modal, Button } from 'react-bootstrap';
 import { closeModal } from '../../store/index.js';
 import { modalSelector } from '../../selectors/index.js';
 
-const RemoveModal = () => {
+const RenameChannel = () => {
   const dispatch = useDispatch();
   const { modalShow, modalData } = useSelector(modalSelector);
 
@@ -17,7 +17,7 @@ const RemoveModal = () => {
   return (
     <Modal show={modalShow} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Remove channel</Modal.Title>
+        <Modal.Title>Rename channel</Modal.Title>
       </Modal.Header>
       <Modal.Body>modalData -- {modalData.id} {modalData.name}</Modal.Body>
       <Modal.Footer>
@@ -32,4 +32,4 @@ const RemoveModal = () => {
   );
 };
 
-export default RemoveModal;
+export default RenameChannel;

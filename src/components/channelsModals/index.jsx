@@ -3,17 +3,17 @@ import { useSelector } from 'react-redux';
 // import { Modal } from 'react-bootstrap';
 
 import { modalSelector } from '../../selectors/index.js';
-import AddModal from './AddModal.jsx';
-import RemoveModal from './RemoveModal.jsx';
-import RenameModal from './RenameModal.jsx';
+import AddChannel from './AddChannel.jsx';
+import RemoveChannel from './RemoveChannel.jsx';
+import RenameChannel from './RenameChannel.jsx';
 
 const ChannelsModal = () => {
   const { modalShow, modalTitle } = useSelector(modalSelector);
 
   const modals = {
-    adding: AddModal,
-    removing: RemoveModal,
-    renaming: RenameModal,
+    adding: AddChannel,
+    removing: RemoveChannel,
+    renaming: RenameChannel,
   };
 
   if (modalShow === false) {

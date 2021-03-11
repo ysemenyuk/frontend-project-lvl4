@@ -5,19 +5,7 @@ import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
 export const channelsAdapter = createEntityAdapter();
 export const messagesAdapter = createEntityAdapter();
 
-const chatSlice = createSlice({
-  name: 'chat',
-  initialState: {
-    currentChannelId: null,
-  },
-  reducers: {
-    setCurrentChannel: (state, action) => {
-      state.currentChannelId = action.payload;
-    },
-  },
-});
-
-const channelsSlice = createSlice({
+const channels = createSlice({
   name: 'channels',
   initialState: channelsAdapter.getInitialState(),
   reducers: {
@@ -28,16 +16,41 @@ const channelsSlice = createSlice({
   },
 });
 
-const messagesSlice = createSlice({
+const messages = createSlice({
   name: 'messages',
   initialState: messagesAdapter.getInitialState(),
   reducers: {
     addMessage: messagesAdapter.addOne,
     receiveMessages: messagesAdapter.setAll,
   },
+  extraReducers: {
+    [channels.actions.removeChannel]: (state, action) => {
+      console.log('messagesSlice extraReducers action.payload', action.payload);
+    },
+  },
 });
 
-const modalSlice = createSlice({
+const chat = createSlice({
+  name: 'chat',
+  initialState: {
+    currentChannelId: null,
+  },
+  reducers: {
+    setCurrentChannel: (state, action) => {
+      state.currentChannelId = action.payload;
+    },
+  },
+  extraReducers: {
+    [channels.actions.removeChannel]: (state, action) => {
+      console.log('chatSlice extraReducers action.payload', action.payload);
+      if (action.payload === state.currentChannelId) {
+        state.currentChannelId = 1;
+      }
+    },
+  },
+});
+
+const modal = createSlice({
   name: 'modal',
   initialState: {
     modalShow: false,
@@ -59,14 +72,14 @@ const modalSlice = createSlice({
   },
 });
 
-export const { setCurrentChannel } = chatSlice.actions;
-export const { addChannel, renameChannel, removeChannel, receiveChannels } = channelsSlice.actions;
-export const { addMessage, receiveMessages } = messagesSlice.actions;
-export const { openModal, closeModal } = modalSlice.actions;
+export const { setCurrentChannel } = chat.actions;
+export const { addChannel, renameChannel, removeChannel, receiveChannels } = channels.actions;
+export const { addMessage, receiveMessages, removeChannelMessages } = messages.actions;
+export const { openModal, closeModal } = modal.actions;
 
 export default {
-  chat: chatSlice.reducer,
-  channels: channelsSlice.reducer,
-  messages: messagesSlice.reducer,
-  modal: modalSlice.reducer,
+  chat: chat.reducer,
+  channels: channels.reducer,
+  messages: messages.reducer,
+  modal: modal.reducer,
 };
