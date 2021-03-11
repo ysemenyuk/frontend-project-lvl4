@@ -3,13 +3,17 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { channelsSelector, currentChannelSelector } from '../selectors/index.js';
-import { setCurrentChannel } from '../store/index.js';
+import { setCurrentChannel, openModal } from '../store/index.js';
 
 const ChannelsList = () => {
   const dispatch = useDispatch();
   const channels = useSelector(channelsSelector);
   const currentChannelId = useSelector(currentChannelSelector);
   const setCurrent = (id) => () => dispatch(setCurrentChannel(id));
+
+  const handleModal = (modalTitle, modalData) => () => {
+    dispatch(openModal({ modalTitle, modalData }));
+  };
 
   return (
     <ul className="nav flex-column nav-pills nav-fill">
@@ -48,8 +52,8 @@ const ChannelsList = () => {
                 <span className="sr-only">Toggle Dropdown</span>
               </button>
               <div className="dropdown-menu">
-                <a className="dropdown-item" href="#">Remove</a>
-                <a className="dropdown-item" href="#">Rename</a>
+                <a onClick={handleModal('removing', { id, name })} className="dropdown-item" href="#">Remove</a>
+                <a onClick={handleModal('renaming', { id, name })} className="dropdown-item" href="#">Rename</a>
               </div>
             </div>
           </li>

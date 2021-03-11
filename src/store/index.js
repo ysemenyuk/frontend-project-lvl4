@@ -40,16 +40,19 @@ const messagesSlice = createSlice({
 const modalSlice = createSlice({
   name: 'modal',
   initialState: {
+    modalShow: false,
     modalTitle: null,
     modalData: null,
   },
   reducers: {
     openModal: (state, action) => {
-      console.log(action.payload);
+      console.log('modalSlice action.payload', action.payload);
+      state.modalShow = true;
       state.modalTitle = action.payload.modalTitle;
       state.modalData = action.payload.modalData;
     },
     closeModal: (state) => {
+      state.modalShow = false;
       state.modalTitle = null;
       state.modalData = null;
     },
