@@ -1,4 +1,3 @@
-/* eslint-disable object-curly-newline */
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Button, Form } from 'react-bootstrap';
@@ -16,6 +15,7 @@ const AddChannel = () => {
   const { modalShow } = useSelector(modalSelector);
 
   const inputRef = useRef();
+
   useEffect(() => {
     inputRef.current.focus();
   }, []);

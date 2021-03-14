@@ -1,12 +1,16 @@
 import React from 'react';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
+import { currentChannel } from '../selectors/index.js';
 import routes from '../routes.js';
 
 const ApiTest = () => {
+  const channelId = useSelector(currentChannel);
+
   const testAddMessageHandler = (e) => {
     e.preventDefault();
-    const url = routes.channelMessagesPath(1);
+    const url = routes.channelMessagesPath(channelId);
     axios.post(url, {
       data: {
         attributes: { nickname: 'test nickname', text: 'test text' },
@@ -38,8 +42,8 @@ const ApiTest = () => {
 
   return (
     <div>
-      <button onClick={testAddMessageHandler} type="button" className="btn btn-primary">apiAddMessage</button>
-      <button onClick={testAddChannelHandler} type="button" className="btn btn-primary">apiAddChannel</button>
+      <button onClick={testAddMessageHandler} type="button" className="btn btn-primary mr-1">addMessage</button>
+      <button onClick={testAddChannelHandler} type="button" className="btn btn-primary mr-1">addChannel</button>
     </div>
   );
 };

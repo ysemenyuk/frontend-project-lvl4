@@ -1,5 +1,4 @@
-/* eslint-disable import/no-cycle */
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -7,12 +6,19 @@ import axios from 'axios';
 
 import routes from '../routes.js';
 
-import { AppContext } from '../init.jsx';
-import { currentChannelSelector } from '../selectors/index.js';
+import AppContext from '../appContext.js';
+import { currentChannel } from '../selectors/index.js';
 
 const NewMessageForm = () => {
-  const channelId = useSelector(currentChannelSelector);
-  const nickname = useContext(AppContext);
+  const channelId = useSelector(currentChannel);
+  const { nickname, rollbar } = useContext(AppContext);
+
+  const inputRef = useRef();
+
+  useEffect(() => {
+    // rollbar.info('Test from new message form');
+    inputRef.current.focus();
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -36,6 +42,7 @@ const NewMessageForm = () => {
           resetForm();
         })
         .catch((err) => {
+          rollbar.error('onSubmitHandler error', err.message);
           console.log('onSubmitHandler error', err.message);
           setFieldError('network', err.message);
         });
@@ -51,6 +58,7 @@ const NewMessageForm = () => {
             <input
               type="text"
               name="messageText"
+              ref={inputRef}
               className="mr-2 form-control"
               onChange={formik.handleChange}
               value={formik.values.messageText}

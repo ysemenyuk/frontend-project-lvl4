@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Form, Button } from 'react-bootstrap';
@@ -13,7 +12,6 @@ import { modalSelector } from '../../selectors/index.js';
 const RemoveChannel = () => {
   const dispatch = useDispatch();
   const { modalShow, modalData } = useSelector(modalSelector);
-  console.log('modalData', modalData);
 
   const handleClose = () => {
     dispatch(closeModal());

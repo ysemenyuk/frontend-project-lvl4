@@ -1,14 +1,13 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { channelsSelector, currentChannelSelector } from '../selectors/index.js';
+import { allChannels, currentChannel } from '../selectors/index.js';
 import { setCurrentChannel, openModal } from '../store/index.js';
 
 const ChannelsList = () => {
   const dispatch = useDispatch();
-  const channels = useSelector(channelsSelector);
-  const currentChannelId = useSelector(currentChannelSelector);
+  const channels = useSelector(allChannels);
+  const currentChannelId = useSelector(currentChannel);
   const setCurrent = (id) => () => dispatch(setCurrentChannel(id));
 
   const handleModal = (modalTitle, modalData) => () => {
@@ -52,8 +51,8 @@ const ChannelsList = () => {
                 <span className="sr-only">Toggle Dropdown</span>
               </button>
               <div className="dropdown-menu">
-                <a onClick={handleModal('removing', { id, name })} className="dropdown-item" href="#">Remove</a>
-                <a onClick={handleModal('renaming', { id, name })} className="dropdown-item" href="#">Rename</a>
+                <button onClick={handleModal('removing', { id, name })} className="dropdown-item" type="button">Remove</button>
+                <button onClick={handleModal('renaming', { id, name })} className="dropdown-item" type="button">Rename</button>
               </div>
             </div>
           </li>

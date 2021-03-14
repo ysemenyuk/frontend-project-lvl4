@@ -1,16 +1,16 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { currentChannelMessagesSelector } from '../selectors/index.js';
+import { currentChannelMessages } from '../selectors/index.js';
 
 const ChatBox = () => {
-  const currentChannelMessages = useSelector(currentChannelMessagesSelector);
-
+  const messages = useSelector(currentChannelMessages);
   return (
     <div id="messages-box" className="chat-messages overflow-auto mb-3">
-      {currentChannelMessages.map((message) => (
+      {messages.map((message) => (
         <div key={message.id} className="text-break">
-          {`${message.nickname}: ${message.text}`}
+          <b>{`${message.nickname}`}</b>
+          {`: ${message.text}`}
         </div>
       ))}
     </div>

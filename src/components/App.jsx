@@ -1,20 +1,22 @@
-/* eslint-disable import/no-cycle */
-import React from 'react';
+import React, { useContext } from 'react';
 import { useDispatch } from 'react-redux';
 
 import ChannelsList from './ChannelsList.jsx';
 import ChatBox from './ChatBox.jsx';
 import NewMessageForm from './NewMessageForm.jsx';
 import ChannelsModal from './channelsModals/index.jsx';
+import AppContext from '../appContext.js';
 
 import ApiTest from './ApiTest.jsx';
 
 import { openModal } from '../store/index.js';
 
 const App = () => {
+  const { rollbar } = useContext(AppContext);
   const dispatch = useDispatch();
 
   const handleModal = (modalTitle) => () => {
+    rollbar.info('User opened adding modal');
     dispatch(openModal({ modalTitle }));
   };
 
@@ -29,7 +31,7 @@ const App = () => {
             type="button"
             className="ml-auto p-0 btn btn-link"
             data-toggle="modal"
-            data-target="#exampleModal"
+            data-target="#addingModal"
           >
             Add
           </button>
