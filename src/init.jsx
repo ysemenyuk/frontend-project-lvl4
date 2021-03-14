@@ -47,6 +47,8 @@ export default (gon) => {
     console.log('socet removeChannel responce', responce);
     const channelId = responce.data.id;
     store.dispatch(removeChannel(channelId));
+    // const ids = ??
+    // store.dispatch(removeChannelMessages(ids));
   });
 
   let nickname = Cookies.get('nickname');

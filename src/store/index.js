@@ -1,6 +1,8 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable no-param-reassign */
-import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
+import { createSlice, createEntityAdapter, current } from '@reduxjs/toolkit';
+
+// import { messagesSelector } from '../selectors/index.js';
 
 export const channelsAdapter = createEntityAdapter();
 export const messagesAdapter = createEntityAdapter();
@@ -25,7 +27,19 @@ const messages = createSlice({
   },
   extraReducers: {
     [channels.actions.removeChannel]: (state, action) => {
-      console.log('messagesSlice extraReducers action.payload', action.payload);
+      console.log('messagesSlice extraReducers state', state);
+      console.log('messagesSlice extraReducers action', action);
+      console.log('current(state)', current(state));
+
+      // const messagesSelectors = messagesAdapter.getSelectors();
+      // const mess = messagesSelectors.selectAll(current(state));
+      // const mess = messagesSelector(current(state));
+      // console.log(mess);
+      // const ids = mess.filter((m) => m.channelId === action.payload).map((i) => i.id);
+      // console.log(ids);
+      // messagesAdapter.removeMany(state, ids);
+
+      // console.log('current(state)', current(state));
     },
   },
 });
