@@ -1,46 +1,33 @@
-/* eslint-disable object-curly-newline */
 /* eslint-disable no-param-reassign */
 import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
-import _ from 'lodash';
 
 export const channelsAdapter = createEntityAdapter();
 export const messagesAdapter = createEntityAdapter();
 
-const chat = createSlice({
-  name: 'chat',
-  initialState: {
+const channels = createSlice({
+  name: 'channels',
+  initialState: channelsAdapter.getInitialState({
     currentChannelId: null,
-  },
+  }),
   reducers: {
     initState: (state, action) => {
       state.currentChannelId = action.payload.currentChannelId;
+      channelsAdapter.setAll(state, action.payload.channels);
     },
     setCurrentChannel: (state, action) => {
       state.currentChannelId = action.payload;
     },
+    addChannel: channelsAdapter.addOne,
     removeChannel: (state, action) => {
       if (action.payload === state.currentChannelId) {
         state.currentChannelId = 1;
       }
+      channelsAdapter.removeOne(state, action);
     },
-  },
-});
-
-const channels = createSlice({
-  name: 'channels',
-  initialState: channelsAdapter.getInitialState(),
-  reducers: {
-    addChannel: channelsAdapter.addOne,
     renameChannel: (state, action) => {
       const { id, name } = action.payload;
       channelsAdapter.updateOne(state, { id, changes: { name } });
     },
-  },
-  extraReducers: {
-    [chat.actions.initState]: (state, action) => {
-      channelsAdapter.setAll(state, action.payload.channels);
-    },
-    [chat.actions.removeChannel]: channelsAdapter.removeOne,
   },
 });
 
@@ -51,14 +38,12 @@ const messages = createSlice({
     addMessage: messagesAdapter.addOne,
   },
   extraReducers: {
-    [chat.actions.initState]: (state, action) => {
+    [channels.actions.initState]: (state, action) => {
       messagesAdapter.setAll(state, action.payload.messages);
     },
-    [chat.actions.removeChannel]: (state, action) => {
-      const channelMessagesIds = _.reduce(
-        state.entities,
-        (acc, item, id) => (item.channelId === action.payload ? [...acc, id] : acc), [],
-      );
+    [channels.actions.removeChannel]: (state, action) => {
+      const channelMessagesIds = Object.values(state.entities)
+        .reduce((acc, item) => (item.channelId === action.payload ? [...acc, item.id] : acc), []);
       messagesAdapter.removeMany(state, channelMessagesIds);
     },
   },
@@ -85,13 +70,13 @@ const modal = createSlice({
   },
 });
 
-export const { setCurrentChannel, initState, removeChannel } = chat.actions;
-export const { addChannel, renameChannel } = channels.actions;
+export const {
+  setCurrentChannel, initState, removeChannel, addChannel, renameChannel,
+} = channels.actions;
 export const { addMessage } = messages.actions;
 export const { openModal, closeModal } = modal.actions;
 
 export default {
-  chat: chat.reducer,
   channels: channels.reducer,
   messages: messages.reducer,
   modal: modal.reducer,
