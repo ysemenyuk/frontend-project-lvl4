@@ -1,19 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
+import AppContext from '../appContext.js';
 import { currentChannel } from '../selectors/index.js';
 import routes from '../routes.js';
 
 const ApiTest = () => {
   const channelId = useSelector(currentChannel);
+  const { nickname, rollbar } = useContext(AppContext);
 
   const testAddMessageHandler = (e) => {
     e.preventDefault();
     const url = routes.channelMessagesPath(channelId);
     axios.post(url, {
       data: {
-        attributes: { nickname: 'test nickname', text: 'test text' },
+        attributes: { nickname, text: 'test text' },
       },
     })
       .then((responce) => {
@@ -40,10 +42,17 @@ const ApiTest = () => {
       });
   };
 
+  const testAddErrorHandler = (e) => {
+    e.preventDefault();
+    rollbar.error('test Add Error');
+    console.log('test Add Error');
+  };
+
   return (
     <div>
       <button onClick={testAddMessageHandler} type="button" className="btn btn-primary mr-1">addMessage</button>
       <button onClick={testAddChannelHandler} type="button" className="btn btn-primary mr-1">addChannel</button>
+      <button onClick={testAddErrorHandler} type="button" className="btn btn-primary mr-1">addError</button>
     </div>
   );
 };

@@ -1,12 +1,13 @@
 import Rollbar from 'rollbar';
 
-// const accessToken = process.env.POST_CLIENT_ITEM_ACCESS_TOKEN || null;
+const accessToken = process.env.POST_CLIENT_ITEM_ACCESS_TOKEN;
+const environment = process.env.NODE_ENV || 'development';
 
 export default () => new Rollbar({
-  accessToken: '44328a6c1c724417815434212062b05d',
+  accessToken,
   captureUncaught: true,
   captureUnhandledRejections: true,
   payload: {
-    environment: 'production',
+    environment,
   },
 });
