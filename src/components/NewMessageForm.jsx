@@ -16,7 +16,6 @@ const NewMessageForm = () => {
   const inputRef = useRef();
 
   useEffect(() => {
-    // rollbar.info('Test from new message form');
     inputRef.current.focus();
   });
 

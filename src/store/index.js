@@ -1,50 +1,54 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
 
-export const channelsAdapter = createEntityAdapter();
-export const messagesAdapter = createEntityAdapter();
+const chatAdapter = createEntityAdapter();
+export const chatSelectors = chatAdapter.getSelectors();
 
 const channels = createSlice({
   name: 'channels',
-  initialState: channelsAdapter.getInitialState({
+  initialState: chatAdapter.getInitialState({
     currentChannelId: null,
+    сhannelIdForRemove: null,
   }),
   reducers: {
     initState: (state, action) => {
       state.currentChannelId = action.payload.currentChannelId;
-      channelsAdapter.setAll(state, action.payload.channels);
+      chatAdapter.setAll(state, action.payload.channels);
     },
     setCurrentChannel: (state, action) => {
       state.currentChannelId = action.payload;
     },
-    addChannel: channelsAdapter.addOne,
+    addChannel: chatAdapter.addOne,
     removeChannel: (state, action) => {
       if (action.payload === state.currentChannelId) {
         state.currentChannelId = 1;
       }
-      channelsAdapter.removeOne(state, action);
+      state.сhannelIdForRemove = action.payload;
+      chatAdapter.removeOne(state, action);
     },
     renameChannel: (state, action) => {
       const { id, name } = action.payload;
-      channelsAdapter.updateOne(state, { id, changes: { name } });
+      chatAdapter.updateOne(state, { id, changes: { name } });
     },
   },
 });
 
 const messages = createSlice({
   name: 'messages',
-  initialState: messagesAdapter.getInitialState(),
+  initialState: chatAdapter.getInitialState(),
   reducers: {
-    addMessage: messagesAdapter.addOne,
+    addMessage: chatAdapter.addOne,
   },
   extraReducers: {
     [channels.actions.initState]: (state, action) => {
-      messagesAdapter.setAll(state, action.payload.messages);
+      chatAdapter.setAll(state, action.payload.messages);
     },
     [channels.actions.removeChannel]: (state, action) => {
-      const channelMessagesIds = Object.values(state.entities)
-        .reduce((acc, item) => (item.channelId === action.payload ? [...acc, item.id] : acc), []);
-      messagesAdapter.removeMany(state, channelMessagesIds);
+      const channelMessagesIds = chatSelectors
+        .selectAll(state)
+        .filter((i) => i.channelId === action.payload)
+        .map((i) => i.id);
+      chatAdapter.removeMany(state, channelMessagesIds);
     },
   },
 });
