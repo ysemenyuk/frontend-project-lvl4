@@ -2,15 +2,18 @@ import React from 'react';
 
 const ChannelsListItem = (props) => {
   const {
-    currentChannelId, setCurrent, handleModal, channel: { id, name, removable },
+    currentChannelId, onSelectChannel,
+    onOpenModalForRemoveChannel, onOpenModalForRenameChannel, channel,
   } = props;
+
+  const { id, name, removable } = channel;
 
   const currentClass = currentChannelId === id ? 'btn-primary' : 'btn-light';
 
   if (removable === false) {
     return (
       <button
-        onClick={setCurrent(id)}
+        onClick={onSelectChannel(id)}
         type="button"
         className={`btn ${currentClass} nav-link btn-block mb-2 text-left`}
       >
@@ -22,7 +25,7 @@ const ChannelsListItem = (props) => {
   return (
     <div className="btn-group d-flex mb-2 dropdown">
       <button
-        onClick={setCurrent(id)}
+        onClick={onSelectChannel(id)}
         type="button"
         className={`btn ${currentClass} text-left flex-grow-1 nav-link`}
       >
@@ -38,8 +41,8 @@ const ChannelsListItem = (props) => {
         <span className="sr-only">Toggle Dropdown</span>
       </button>
       <div className="dropdown-menu">
-        <button onClick={handleModal('removing', { id, name })} className="dropdown-item" type="button">Remove</button>
-        <button onClick={handleModal('renaming', { id, name })} className="dropdown-item" type="button">Rename</button>
+        <button onClick={onOpenModalForRemoveChannel(channel)} className="dropdown-item" type="button">Remove</button>
+        <button onClick={onOpenModalForRenameChannel(channel)} className="dropdown-item" type="button">Rename</button>
       </div>
     </div>
   );

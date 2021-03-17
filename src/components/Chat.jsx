@@ -14,6 +14,7 @@ const Chat = () => {
   const messages = useSelector(currentChannelMessages);
   const channel = useSelector(currentChannel);
   const contextProps = useContext(AppContext);
+
   return (
     <div className="d-flex flex-column h-100">
       <div className="d-flex mb-2">

@@ -3,9 +3,9 @@ import React from 'react';
 import ChannelsListItem from './ChannelsListItem.jsx';
 
 const ChannelsList = (props) => {
-  console.log('channels');
   const {
-    channels, currentChannelId, setCurrent, handleModal,
+    channels, currentChannelId, onSelectChannel,
+    onOpenModalForRemoveChannel, onOpenModalForRenameChannel,
   } = props;
 
   return (
@@ -15,8 +15,9 @@ const ChannelsList = (props) => {
           <ChannelsListItem
             channel={channel}
             currentChannelId={currentChannelId}
-            setCurrent={setCurrent}
-            handleModal={handleModal}
+            onSelectChannel={onSelectChannel}
+            onOpenModalForRemoveChannel={onOpenModalForRemoveChannel}
+            onOpenModalForRenameChannel={onOpenModalForRenameChannel}
           />
         </li>
       ))}

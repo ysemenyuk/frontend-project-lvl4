@@ -3,11 +3,11 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 
 import AppContext from '../appContext.js';
-import { currentChannel } from '../selectors/index.js';
+import { currentChannelId } from '../selectors/index.js';
 import routes from '../routes.js';
 
 const ApiTest = () => {
-  const channelId = useSelector(currentChannel);
+  const channelId = useSelector(currentChannelId);
   const { nickname, rollbar } = useContext(AppContext);
 
   const testAddMessageHandler = (e) => {

@@ -2,7 +2,10 @@ import React, { useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { allChannels, currentChannelId } from '../selectors/index.js';
-import { setCurrentChannel, openModal } from '../store/index.js';
+import {
+  selectChannel, openModalForAddChannel,
+  openModalForRemoveChannel, openModalForRenameChannel,
+} from '../store/index.js';
 
 import ChannelsModal from './channelsModals/index.jsx';
 import ChannelsList from './ChannelsList.jsx';
@@ -14,12 +17,20 @@ const Channels = () => {
   const currentChannel = useSelector(currentChannelId);
   const contextProps = useContext(AppContext);
 
-  const setCurrent = (id) => () => {
-    dispatch(setCurrentChannel(id));
+  const handleSelectChannel = (id) => () => {
+    dispatch(selectChannel(id));
   };
 
-  const handleModal = (modalTitle, modalData) => () => {
-    dispatch(openModal({ modalTitle, modalData }));
+  const handleOpenModalForAddChannel = () => {
+    dispatch(openModalForAddChannel());
+  };
+
+  const handleOpenModalForRemoveChannel = (channel) => () => {
+    dispatch(openModalForRemoveChannel(channel));
+  };
+
+  const handleOpenModalForRenameChannel = (channel) => () => {
+    dispatch(openModalForRenameChannel(channel));
   };
 
   return (
@@ -27,7 +38,7 @@ const Channels = () => {
       <div className="d-flex mb-2">
         <h5>Channels</h5>
         <button
-          onClick={handleModal('adding')}
+          onClick={handleOpenModalForAddChannel}
           type="button"
           className="ml-auto p-0 btn btn-link"
           data-toggle="modal"
@@ -40,8 +51,9 @@ const Channels = () => {
         contextProps={contextProps}
         currentChannelId={currentChannel}
         channels={channels}
-        setCurrent={setCurrent}
-        handleModal={handleModal}
+        onSelectChannel={handleSelectChannel}
+        onOpenModalForRemoveChannel={handleOpenModalForRemoveChannel}
+        onOpenModalForRenameChannel={handleOpenModalForRenameChannel}
       />
       <ChannelsModal />
     </>

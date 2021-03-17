@@ -30,14 +30,13 @@ const ChatForm = (props) => {
           attributes: { nickname, text: values.messageText },
         },
       })
-        .then((responce) => {
-          console.log('onSubmitHandler responce', responce.data.data.attributes);
+        .then(() => {
           setSubmitting(false);
           resetForm();
         })
         .catch((err) => {
-          rollbar.error('onSubmitHandler error', err.message);
-          console.log('onSubmitHandler error', err.message);
+          rollbar.error('ChatForm onSubmitHandler error', err.message);
+          setSubmitting(false);
           setFieldError('network', err.message);
         });
     },

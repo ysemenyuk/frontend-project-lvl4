@@ -10,15 +10,13 @@ export const currentChannelId = (state) => state.channels.currentChannelId;
 export const currentChannel = createSelector(
   allChannels,
   currentChannelId,
-  (channels, channelId) => channels
-    .find((ch) => ch.id === channelId),
+  (channels, channelId) => channels.find((ch) => ch.id === channelId),
 );
 
 export const currentChannelMessages = createSelector(
   allMessages,
   currentChannelId,
-  (messages, channelId) => messages
-    .filter((m) => m.channelId === channelId),
+  (messages, channelId) => messages.filter((m) => m.channelId === channelId),
 );
 
 export const modalSelector = (state) => state.modal;

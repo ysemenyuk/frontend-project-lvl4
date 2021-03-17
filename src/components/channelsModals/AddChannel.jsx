@@ -1,28 +1,22 @@
 import React, { useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Modal, Button, Form } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 
+import {
+  Modal, Button, Form, Spinner,
+} from 'react-bootstrap';
+
 import routes from '../../routes.js';
 
-import { closeModal } from '../../store/index.js';
-import { modalSelector } from '../../selectors/index.js';
-
-const AddChannel = () => {
-  const dispatch = useDispatch();
-  const { modalShow } = useSelector(modalSelector);
+const AddChannel = (props) => {
+  const { modalShow, onCloseModal } = props;
 
   const inputRef = useRef();
 
   useEffect(() => {
     inputRef.current.focus();
   }, []);
-
-  const handleClose = () => {
-    dispatch(closeModal());
-  };
 
   const initialValues = {
     text: '',
@@ -42,21 +36,19 @@ const AddChannel = () => {
         attributes: { name: values.text },
       },
     })
-      .then((responce) => {
-        console.log('onSubmitHandler responce', responce.data.data.attributes);
+      .then(() => {
         setSubmitting(false);
         resetForm();
-        dispatch(closeModal());
+        onCloseModal();
       })
       .catch((err) => {
-        console.log('onSubmitHandler error', err.message);
         setSubmitting(false);
         setFieldError('network', err.message);
       });
   };
 
   return (
-    <Modal show={modalShow} onHide={handleClose}>
+    <Modal show={modalShow} onHide={onCloseModal}>
       <Modal.Header closeButton>
         <Modal.Title>Add channel</Modal.Title>
       </Modal.Header>
@@ -92,11 +84,18 @@ const AddChannel = () => {
               </Form.Group>
 
               <div className="d-flex justify-content-end">
-                <Button variant="secondary" className="mr-1" disabled={isSubmitting} onClick={handleClose}>
+                <Button variant="secondary" className="mr-1" disabled={isSubmitting} onClick={onCloseModal}>
                   Cancle
                 </Button>
                 <Button variant="primary" className="mr-1" disabled={isSubmitting} type="submit">
                   Submit
+                  <span> </span>
+                  <Spinner
+                    style={{ display: isSubmitting ? 'inline-block' : 'none' }}
+                    as="span"
+                    animation="border"
+                    size="sm"
+                  />
                 </Button>
               </div>
 

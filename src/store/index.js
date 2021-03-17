@@ -15,7 +15,7 @@ const channels = createSlice({
       state.currentChannelId = action.payload.currentChannelId;
       chatAdapter.setAll(state, action.payload.channels);
     },
-    setCurrentChannel: (state, action) => {
+    selectChannel: (state, action) => {
       state.currentChannelId = action.payload;
     },
     addChannel: chatAdapter.addOne,
@@ -61,10 +61,19 @@ const modal = createSlice({
     modalData: null,
   },
   reducers: {
-    openModal: (state, action) => {
+    openModalForAddChannel: (state) => {
       state.modalShow = true;
-      state.modalTitle = action.payload.modalTitle;
-      state.modalData = action.payload.modalData;
+      state.modalTitle = 'adding';
+    },
+    openModalForRemoveChannel: (state, action) => {
+      state.modalShow = true;
+      state.modalTitle = 'removing';
+      state.modalData = action.payload;
+    },
+    openModalForRenameChannel: (state, action) => {
+      state.modalShow = true;
+      state.modalTitle = 'renaming';
+      state.modalData = action.payload;
     },
     closeModal: (state) => {
       state.modalShow = false;
@@ -75,10 +84,12 @@ const modal = createSlice({
 });
 
 export const {
-  setCurrentChannel, initState, removeChannel, addChannel, renameChannel,
+  selectChannel, initState, removeChannel, addChannel, renameChannel,
 } = channels.actions;
 export const { addMessage } = messages.actions;
-export const { openModal, closeModal } = modal.actions;
+export const {
+  openModalForAddChannel, openModalForRemoveChannel, openModalForRenameChannel, closeModal,
+} = modal.actions;
 
 export default {
   channels: channels.reducer,
