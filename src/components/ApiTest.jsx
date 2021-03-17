@@ -44,6 +44,7 @@ const ApiTest = () => {
 
   const testAddErrorHandler = (e) => {
     e.preventDefault();
+    console.log('rollbar', rollbar);
     rollbar.error('test Add Error');
     console.log('test Add Error');
   };
