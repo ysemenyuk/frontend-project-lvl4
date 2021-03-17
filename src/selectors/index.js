@@ -5,13 +5,20 @@ import { chatSelectors } from '../store/index.js';
 export const allChannels = (state) => chatSelectors.selectAll(state.channels);
 export const allMessages = (state) => chatSelectors.selectAll(state.messages);
 
-export const currentChannel = (state) => state.channels.currentChannelId;
+export const currentChannelId = (state) => state.channels.currentChannelId;
+
+export const currentChannel = createSelector(
+  allChannels,
+  currentChannelId,
+  (channels, channelId) => channels
+    .find((ch) => ch.id === channelId),
+);
 
 export const currentChannelMessages = createSelector(
   allMessages,
-  currentChannel,
-  (messages, currentChannelId) => messages
-    .filter(({ channelId }) => channelId === currentChannelId),
+  currentChannelId,
+  (messages, channelId) => messages
+    .filter((m) => m.channelId === channelId),
 );
 
 export const modalSelector = (state) => state.modal;

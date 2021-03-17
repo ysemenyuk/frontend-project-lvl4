@@ -1,17 +1,12 @@
-import React, { useContext, useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 
 import routes from '../routes.js';
 
-import AppContext from '../appContext.js';
-import { currentChannel } from '../selectors/index.js';
-
-const NewMessageForm = () => {
-  const channelId = useSelector(currentChannel);
-  const { nickname, rollbar } = useContext(AppContext);
+const ChatForm = (props) => {
+  const { channelId, contextProps: { nickname, rollbar } } = props;
 
   const inputRef = useRef();
 
@@ -85,4 +80,4 @@ const NewMessageForm = () => {
   );
 };
 
-export default NewMessageForm;
+export default ChatForm;
