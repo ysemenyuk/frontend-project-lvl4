@@ -10,7 +10,7 @@ import {
 import routes from '../../routes.js';
 
 const AddChannel = (props) => {
-  const { modalShow, onCloseModal } = props;
+  const { onCloseModal } = props;
 
   const inputRef = useRef();
 
@@ -48,7 +48,7 @@ const AddChannel = (props) => {
   };
 
   return (
-    <Modal show={modalShow} onHide={onCloseModal}>
+    <>
       <Modal.Header closeButton>
         <Modal.Title>Add channel</Modal.Title>
       </Modal.Header>
@@ -103,7 +103,7 @@ const AddChannel = (props) => {
           )}
         </Formik>
       </Modal.Body>
-    </Modal>
+    </>
   );
 };
 

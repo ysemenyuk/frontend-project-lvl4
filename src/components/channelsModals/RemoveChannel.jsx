@@ -9,7 +9,7 @@ import {
 import routes from '../../routes.js';
 
 const RemoveChannel = (props) => {
-  const { modalShow, modalData, onCloseModal } = props;
+  const { modalData, onCloseModal } = props;
 
   const initialValues = {
     text: '',
@@ -30,7 +30,7 @@ const RemoveChannel = (props) => {
   };
 
   return (
-    <Modal show={modalShow} onHide={onCloseModal}>
+    <>
       <Modal.Header closeButton>
         <Modal.Title>Remove channel</Modal.Title>
       </Modal.Header>
@@ -79,7 +79,7 @@ const RemoveChannel = (props) => {
           )}
         </Formik>
       </Modal.Body>
-    </Modal>
+    </>
   );
 };
 

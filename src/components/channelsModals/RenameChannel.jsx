@@ -10,7 +10,7 @@ import {
 import routes from '../../routes.js';
 
 const RenameChannel = (props) => {
-  const { modalShow, modalData, onCloseModal } = props;
+  const { modalData, onCloseModal } = props;
 
   const inputRef = useRef();
 
@@ -48,7 +48,7 @@ const RenameChannel = (props) => {
   };
 
   return (
-    <Modal show={modalShow} onHide={onCloseModal}>
+    <>
       <Modal.Header closeButton>
         <Modal.Title>Rename channel</Modal.Title>
       </Modal.Header>
@@ -103,7 +103,7 @@ const RenameChannel = (props) => {
           )}
         </Formik>
       </Modal.Body>
-    </Modal>
+    </>
   );
 };
 
