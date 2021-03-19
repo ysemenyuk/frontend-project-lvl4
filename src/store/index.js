@@ -8,7 +8,6 @@ const channels = createSlice({
   name: 'channels',
   initialState: chatAdapter.getInitialState({
     currentChannelId: null,
-    сhannelIdForRemove: null,
   }),
   reducers: {
     initState: (state, action) => {
@@ -35,9 +34,11 @@ const channels = createSlice({
 
 const messages = createSlice({
   name: 'messages',
-  initialState: chatAdapter.getInitialState(),
+  initialState: chatAdapter.getInitialState({ loading: [] }),
   reducers: {
-    addMessage: chatAdapter.addOne,
+    addMessage: (state, action) => {
+      chatAdapter.addOne(state, action);
+    },
   },
   extraReducers: {
     [channels.actions.initState]: (state, action) => {
@@ -46,8 +47,8 @@ const messages = createSlice({
     [channels.actions.removeChannel]: (state, action) => {
       const channelMessagesIds = chatSelectors
         .selectAll(state)
-        .filter((i) => i.channelId === action.payload)
-        .map((i) => i.id);
+        .filter((m) => m.channelId === action.payload)
+        .map((m) => m.id);
       chatAdapter.removeMany(state, channelMessagesIds);
     },
   },
@@ -57,23 +58,14 @@ const modal = createSlice({
   name: 'modal',
   initialState: {
     modalShow: false,
-    modalTitle: null,
+    modalType: null,
     modalData: null,
   },
   reducers: {
-    openModalForAddChannel: (state) => {
+    openModal: (state, action) => {
       state.modalShow = true;
-      state.modalTitle = 'adding';
-    },
-    openModalForRemoveChannel: (state, action) => {
-      state.modalShow = true;
-      state.modalTitle = 'removing';
-      state.modalData = action.payload;
-    },
-    openModalForRenameChannel: (state, action) => {
-      state.modalShow = true;
-      state.modalTitle = 'renaming';
-      state.modalData = action.payload;
+      state.modalType = action.payload.modalType;
+      state.modalData = action.payload.modalData;
     },
     closeModal: (state) => {
       state.modalShow = false;
@@ -87,9 +79,7 @@ export const {
   selectChannel, initState, removeChannel, addChannel, renameChannel,
 } = channels.actions;
 export const { addMessage } = messages.actions;
-export const {
-  openModalForAddChannel, openModalForRemoveChannel, openModalForRenameChannel, closeModal,
-} = modal.actions;
+export const { openModal, closeModal } = modal.actions;
 
 export default {
   channels: channels.reducer,

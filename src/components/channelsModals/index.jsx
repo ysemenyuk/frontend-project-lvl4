@@ -12,7 +12,7 @@ import RenameChannel from './RenameChannel.jsx';
 
 const ChannelsModal = () => {
   const dispatch = useDispatch();
-  const { modalShow, modalTitle, modalData } = useSelector(modalSelector);
+  const { modalShow, modalType, modalData } = useSelector(modalSelector);
 
   const handleCloseModal = () => {
     dispatch(closeModal());
@@ -28,7 +28,7 @@ const ChannelsModal = () => {
     return null;
   }
 
-  const ModalBody = modals[modalTitle];
+  const ModalBody = modals[modalType];
 
   return (
     <Modal show={modalShow} onHide={handleCloseModal}>

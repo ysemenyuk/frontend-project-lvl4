@@ -5,7 +5,7 @@ import ChannelsListItem from './ChannelsListItem.jsx';
 const ChannelsList = (props) => {
   const {
     channels, currentChannelId, onSelectChannel,
-    onOpenModalForRemoveChannel, onOpenModalForRenameChannel,
+    onRemoveChannel, onRenameChannel,
   } = props;
 
   return (
@@ -16,8 +16,8 @@ const ChannelsList = (props) => {
             channel={channel}
             currentChannelId={currentChannelId}
             onSelectChannel={onSelectChannel}
-            onOpenModalForRemoveChannel={onOpenModalForRemoveChannel}
-            onOpenModalForRenameChannel={onOpenModalForRenameChannel}
+            onRemoveChannel={onRemoveChannel}
+            onRenameChannel={onRenameChannel}
           />
         </li>
       ))}

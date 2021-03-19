@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Formik } from 'formik';
-import * as Yup from 'yup';
+import { useFormik } from 'formik';
 import axios from 'axios';
 
 import {
@@ -8,6 +7,7 @@ import {
 } from 'react-bootstrap';
 
 import routes from '../../routes.js';
+import channelNameValidationSchema from './channelNameValidationSchema.js';
 
 const AddChannel = (props) => {
   const { onCloseModal } = props;
@@ -18,90 +18,73 @@ const AddChannel = (props) => {
     inputRef.current.focus();
   }, []);
 
-  const initialValues = {
-    text: '',
-  };
-
-  const validationSchema = Yup.object({
-    text: Yup.string()
-      .min(3, 'Too Short!')
-      .max(30, 'Too Long!')
-      .required('Required'),
-  });
-
-  const onSubmitHandler = (values, { setSubmitting, resetForm, setFieldError }) => {
-    const url = routes.channelsPath();
-    axios.post(url, {
-      data: {
-        attributes: { name: values.text },
-      },
-    })
-      .then(() => {
-        setSubmitting(false);
-        resetForm();
-        onCloseModal();
+  const formik = useFormik({
+    initialValues: {
+      text: '',
+    },
+    validationSchema: channelNameValidationSchema,
+    onSubmit: (values, { setSubmitting, resetForm, setFieldError }) => {
+      const url = routes.channelsPath();
+      axios.post(url, {
+        data: {
+          attributes: { name: values.text },
+        },
       })
-      .catch((err) => {
-        setSubmitting(false);
-        setFieldError('network', err.message);
-      });
-  };
+        .then(() => {
+          setSubmitting(false);
+          resetForm();
+          onCloseModal();
+        })
+        .catch((err) => {
+          setSubmitting(false);
+          setFieldError('network', err.message);
+        });
+    },
+  });
 
   return (
     <>
       <Modal.Header closeButton>
         <Modal.Title>Add channel</Modal.Title>
       </Modal.Header>
+
       <Modal.Body>
+        <Form onSubmit={formik.handleSubmit}>
 
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={onSubmitHandler}
-        >
-          {({
-            values,
-            handleChange,
-            handleSubmit,
-            isSubmitting,
-            errors,
-          }) => (
-            <Form onSubmit={handleSubmit}>
-              <Form.Group>
-                <Form.Control
-                  name="text"
-                  type="text"
-                  ref={inputRef}
-                  onChange={handleChange}
-                  value={values.text}
-                  disabled={isSubmitting}
-                  isInvalid={!!errors.text || !!errors.network}
-                />
-                <Form.Control.Feedback type="invalid">
-                  {errors.text}
-                  {errors.network}
-                </Form.Control.Feedback>
-              </Form.Group>
+          <Form.Group>
+            <Form.Control
+              name="text"
+              type="text"
+              placeholder="Enter channel name"
+              ref={inputRef}
+              onChange={formik.handleChange}
+              value={formik.values.messageText}
+              disabled={formik.isSubmitting}
+              isInvalid={!!formik.errors.text || !!formik.errors.network}
+            />
+            <Form.Control.Feedback type="invalid">
+              {formik.errors.text ? formik.errors.text : null}
+              {formik.errors.network ? formik.errors.network : null}
+            </Form.Control.Feedback>
+          </Form.Group>
 
-              <div className="d-flex justify-content-end">
-                <Button variant="secondary" className="mr-1" disabled={isSubmitting} onClick={onCloseModal}>
-                  Cancle
-                </Button>
-                <Button variant="primary" className="mr-1" disabled={isSubmitting} type="submit">
-                  Submit
-                  <span> </span>
-                  <Spinner
-                    style={{ display: isSubmitting ? 'inline-block' : 'none' }}
-                    as="span"
-                    animation="border"
-                    size="sm"
-                  />
-                </Button>
-              </div>
+          <div className="d-flex justify-content-end">
+            <Button variant="secondary" className="mr-1" disabled={formik.isSubmitting} onClick={onCloseModal}>
+              Cancle
+            </Button>
+            <Button variant="primary" className="mr-1" disabled={formik.isSubmitting} type="submit">
+              Submit
+              <span> </span>
+              <Spinner
+                style={{ display: formik.isSubmitting ? 'inline-block' : 'none' }}
+                as="span"
+                animation="border"
+                size="sm"
+              />
+            </Button>
+          </div>
 
-            </Form>
-          )}
-        </Formik>
+        </Form>
       </Modal.Body>
     </>
   );

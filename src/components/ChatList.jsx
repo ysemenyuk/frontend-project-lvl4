@@ -1,22 +1,31 @@
+/* eslint-disable object-curly-newline */
 import React, { useEffect, useRef } from 'react';
+import { Badge } from 'react-bootstrap';
 
 const ChatList = ({ messages }) => {
   const messagesContainer = useRef();
 
   useEffect(() => {
-    // messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     messagesContainer.current.scrollTop = messagesContainer.current.scrollHeight;
   }, [messages]);
 
   return (
-    <div ref={messagesContainer} className="overflow-auto mb-3">
-      {messages.map((message) => (
-        <div key={message.id} className="text-break">
-          <b>{`${message.nickname}`}</b>
-          {`: ${message.text}`}
-        </div>
-      ))}
-      {/* <div ref={messagesEndRef} /> */}
+    <div ref={messagesContainer} className="overflow-auto mt-auto">
+      {messages.map(({ id, nickname, text, time }) => {
+        const t = new Date(time).toLocaleTimeString();
+        return (
+          <div key={id}>
+            <div>
+              <b>{nickname}</b>
+              <span>  </span>
+              <Badge variant="light">{t}</Badge>
+            </div>
+            <div>
+              {text}
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 };

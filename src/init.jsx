@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import i18n from 'i18next';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 
@@ -8,11 +9,20 @@ import AppContext from './appContext.js';
 import initSocet from './initSocet.js';
 import initCookies from './initCookies.js';
 import initRollbar from './initRollbar.js';
+import resources from './locales/index.js';
 
 import reducer, { initState } from './store/index.js';
 
 export default (gon) => {
   console.log('gon', gon);
+
+  const i18nOptions = {
+    lng: 'en',
+    debug: false,
+    resources,
+  };
+
+  i18n.init(i18nOptions);
 
   const rollbar = initRollbar();
 

@@ -5,29 +5,31 @@ import axios from 'axios';
 
 import routes from '../routes.js';
 
+const messageValidationSchema = Yup.object({
+  messageText: Yup.string()
+    .max(30, 'Too Long!')
+    .required('Required'),
+});
+
 const ChatForm = (props) => {
-  const { channelId, contextProps: { nickname, rollbar } } = props;
+  const { channel, contextProps: { nickname, rollbar } } = props;
 
   const inputRef = useRef();
 
   useEffect(() => {
     inputRef.current.focus();
-  });
+  }, []);
 
   const formik = useFormik({
     initialValues: {
       messageText: '',
     },
-    validationSchema: Yup.object({
-      messageText: Yup.string()
-        .max(30, 'Too Long!')
-        .required('Required'),
-    }),
+    validationSchema: messageValidationSchema,
     onSubmit: (values, { setSubmitting, resetForm, setFieldError }) => {
-      const url = routes.channelMessagesPath(channelId);
+      const url = routes.channelMessagesPath(channel.id);
       axios.post(url, {
         data: {
-          attributes: { nickname, text: values.messageText },
+          attributes: { nickname, text: values.messageText, time: new Date() },
         },
       })
         .then(() => {
@@ -43,7 +45,7 @@ const ChatForm = (props) => {
   });
 
   return (
-    <div id="new-message-form" className="mt-auto">
+    <div id="new-message-form" className="mt-3">
 
       <form className="new-message-form" onSubmit={formik.handleSubmit}>
         <div className="form-group">
@@ -51,6 +53,7 @@ const ChatForm = (props) => {
             <input
               type="text"
               name="messageText"
+              placeholder={`Message #${channel.name}`}
               ref={inputRef}
               className="mr-2 form-control"
               onChange={formik.handleChange}
@@ -63,7 +66,7 @@ const ChatForm = (props) => {
               className="btn btn-primary"
               disabled={formik.isSubmitting}
             >
-              Submit
+              Send
             </button>
 
             <div className="d-block invalid-feedback">

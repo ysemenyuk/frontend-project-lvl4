@@ -15,7 +15,7 @@ const ApiTest = () => {
     const url = routes.channelMessagesPath(channelId);
     axios.post(url, {
       data: {
-        attributes: { nickname, text: 'test text' },
+        attributes: { nickname, text: 'test text', time: (new Date()).toJSON() },
       },
     })
       .then((responce) => {

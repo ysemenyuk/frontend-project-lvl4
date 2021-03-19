@@ -17,15 +17,15 @@ const Chat = () => {
 
   return (
     <div className="d-flex flex-column h-100">
-      <div className="d-flex mb-2">
+      <div className="border-bottom pb-2 d-flex">
         <h5>
           Chat
           <span>  </span>
-          <Badge variant="primary">{channel.name}</Badge>
+          <Badge variant="info">{`#${channel.name}`}</Badge>
         </h5>
       </div>
       <ChatList messages={messages} />
-      <ChatForm contextProps={contextProps} channelId={channel.id} />
+      <ChatForm contextProps={contextProps} channel={channel} />
       <ApiTest />
     </div>
   );

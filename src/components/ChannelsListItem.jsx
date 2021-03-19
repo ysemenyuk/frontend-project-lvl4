@@ -1,9 +1,10 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
 
 const ChannelsListItem = (props) => {
   const {
     currentChannelId, onSelectChannel,
-    onOpenModalForRemoveChannel, onOpenModalForRenameChannel, channel,
+    onRemoveChannel, onRenameChannel, channel,
   } = props;
 
   const { id, name, removable } = channel;
@@ -17,7 +18,7 @@ const ChannelsListItem = (props) => {
         type="button"
         className={`btn ${currentClass} nav-link btn-block mb-2 text-left`}
       >
-        {name}
+        # {name}
       </button>
     );
   }
@@ -29,7 +30,7 @@ const ChannelsListItem = (props) => {
         type="button"
         className={`btn ${currentClass} text-left flex-grow-1 nav-link`}
       >
-        {name}
+        # {name}
       </button>
       <button
         type="button"
@@ -41,8 +42,8 @@ const ChannelsListItem = (props) => {
         <span className="sr-only">Toggle Dropdown</span>
       </button>
       <div className="dropdown-menu">
-        <button onClick={onOpenModalForRemoveChannel(channel)} className="dropdown-item" type="button">Remove</button>
-        <button onClick={onOpenModalForRenameChannel(channel)} className="dropdown-item" type="button">Rename</button>
+        <button onClick={onRemoveChannel(channel)} className="dropdown-item" type="button">Remove</button>
+        <button onClick={onRenameChannel(channel)} className="dropdown-item" type="button">Rename</button>
       </div>
     </div>
   );

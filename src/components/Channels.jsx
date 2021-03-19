@@ -1,11 +1,9 @@
 import React, { useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import i18n from 'i18next';
 
 import { allChannels, currentChannelId } from '../selectors/index.js';
-import {
-  selectChannel, openModalForAddChannel,
-  openModalForRemoveChannel, openModalForRenameChannel,
-} from '../store/index.js';
+import { selectChannel, openModal } from '../store/index.js';
 
 import ChannelsModal from './channelsModals/index.jsx';
 import ChannelsList from './ChannelsList.jsx';
@@ -21,30 +19,28 @@ const Channels = () => {
     dispatch(selectChannel(id));
   };
 
-  const handleOpenModalForAddChannel = () => {
-    dispatch(openModalForAddChannel());
+  const handleAddChannel = () => {
+    dispatch(openModal({ modalType: 'adding' }));
   };
 
-  const handleOpenModalForRemoveChannel = (channel) => () => {
-    dispatch(openModalForRemoveChannel(channel));
+  const handleRemoveChannel = (modalData) => () => {
+    dispatch(openModal({ modalType: 'removing', modalData }));
   };
 
-  const handleOpenModalForRenameChannel = (channel) => () => {
-    dispatch(openModalForRenameChannel(channel));
+  const handleRenameChannel = (modalData) => () => {
+    dispatch(openModal({ modalType: 'renaming', modalData }));
   };
 
   return (
     <>
-      <div className="d-flex mb-2">
-        <h5>Channels</h5>
+      <div className="border-bottom pb-2 mb-3 d-flex">
+        <h5>{i18n.t('channels')}</h5>
         <button
-          onClick={handleOpenModalForAddChannel}
+          onClick={handleAddChannel}
           type="button"
-          className="ml-auto p-0 btn btn-link"
-          data-toggle="modal"
-          data-target="#addingModal"
+          className="ml-auto p-0 mb-2 btn btn-link"
         >
-          Add
+          Add channel
         </button>
       </div>
       <ChannelsList
@@ -52,8 +48,8 @@ const Channels = () => {
         currentChannelId={currentChannel}
         channels={channels}
         onSelectChannel={handleSelectChannel}
-        onOpenModalForRemoveChannel={handleOpenModalForRemoveChannel}
-        onOpenModalForRenameChannel={handleOpenModalForRenameChannel}
+        onRemoveChannel={handleRemoveChannel}
+        onRenameChannel={handleRenameChannel}
       />
       <ChannelsModal />
     </>
