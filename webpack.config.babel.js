@@ -23,7 +23,7 @@ module.exports = {
     compress: true,
   },
   plugins: [
-    new Dotenv(),
+    new Dotenv({ systemvars: true }),
     new MiniCssExtractPlugin(),
   ],
   module: {
