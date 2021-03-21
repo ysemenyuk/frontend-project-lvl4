@@ -1,7 +1,9 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const ChannelsListItem = (props) => {
+  const { t } = useTranslation();
   const {
     currentChannelId, onSelectChannel,
     onRemoveChannel, onRenameChannel, channel,
@@ -42,8 +44,8 @@ const ChannelsListItem = (props) => {
         <span className="sr-only">Toggle Dropdown</span>
       </button>
       <div className="dropdown-menu">
-        <button onClick={onRemoveChannel(channel)} className="dropdown-item" type="button">Remove</button>
-        <button onClick={onRenameChannel(channel)} className="dropdown-item" type="button">Rename</button>
+        <button onClick={onRemoveChannel(channel)} className="dropdown-item" type="button">{t('remove')}</button>
+        <button onClick={onRenameChannel(channel)} className="dropdown-item" type="button">{t('rename')}</button>
       </div>
     </div>
   );

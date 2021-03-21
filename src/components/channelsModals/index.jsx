@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Modal } from 'react-bootstrap';
 
 import { closeModal } from '../../store/index.js';
-import { modalSelector } from '../../selectors/index.js';
+import { modalSelector, allChannelsNames } from '../../selectors/index.js';
+import { channelValidationSchema } from '../../validationSchema.js';
 
 import AddChannel from './AddChannel.jsx';
 import RemoveChannel from './RemoveChannel.jsx';
@@ -13,6 +14,10 @@ import RenameChannel from './RenameChannel.jsx';
 const ChannelsModal = () => {
   const dispatch = useDispatch();
   const { modalShow, modalType, modalData } = useSelector(modalSelector);
+  const channelsNames = useSelector(allChannelsNames);
+
+  const memoizedValidationSchema = useMemo(() => channelValidationSchema(channelsNames),
+    [channelsNames]);
 
   const handleCloseModal = () => {
     dispatch(closeModal());
@@ -34,6 +39,7 @@ const ChannelsModal = () => {
     <Modal show={modalShow} onHide={handleCloseModal}>
       <ModalBody
         modalData={modalData}
+        validationSchema={memoizedValidationSchema}
         onCloseModal={handleCloseModal}
       />
     </Modal>

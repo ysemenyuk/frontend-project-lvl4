@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
-import AppContext from '../appContext.js';
+import AppContext from '../context.js';
 import { currentChannelId } from '../selectors/index.js';
 import routes from '../routes.js';
 

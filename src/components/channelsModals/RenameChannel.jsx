@@ -1,17 +1,17 @@
 import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
-
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 import {
   Modal, Form, Button, Spinner,
 } from 'react-bootstrap';
 
 import routes from '../../routes.js';
-import channelNameValidationSchema from './channelNameValidationSchema.js';
 
 const RenameChannel = (props) => {
-  const { modalData, onCloseModal } = props;
+  const { modalData, onCloseModal, validationSchema } = props;
+  const { t } = useTranslation();
 
   const inputRef = useRef();
 
@@ -23,7 +23,7 @@ const RenameChannel = (props) => {
     initialValues: {
       text: modalData.name,
     },
-    validationSchema: channelNameValidationSchema,
+    validationSchema,
     onSubmit: (values, { setSubmitting, resetForm, setFieldError }) => {
       const url = routes.channelPath(modalData.id);
       axios.patch(url, {
@@ -46,7 +46,7 @@ const RenameChannel = (props) => {
   return (
     <>
       <Modal.Header closeButton>
-        <Modal.Title>Rename channel</Modal.Title>
+        <Modal.Title>{t('renameChannel')}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
@@ -70,10 +70,10 @@ const RenameChannel = (props) => {
 
           <div className="d-flex justify-content-end">
             <Button variant="secondary" className="mr-1" disabled={formik.isSubmitting} onClick={onCloseModal}>
-              Cancle
+              {t('cancle')}
             </Button>
             <Button variant="primary" className="mr-1" disabled={formik.isSubmitting} type="submit">
-              Submit
+              {t('submit')}
               <span> </span>
               <Spinner
                 style={{ display: formik.isSubmitting ? 'inline-block' : 'none' }}

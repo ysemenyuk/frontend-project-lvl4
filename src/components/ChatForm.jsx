@@ -1,18 +1,18 @@
 import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
+
+import {
+  Button, Form, Spinner, InputGroup,
+} from 'react-bootstrap';
 
 import routes from '../routes.js';
-
-const messageValidationSchema = Yup.object({
-  messageText: Yup.string()
-    .max(30, 'Too Long!')
-    .required('Required'),
-});
+import { messageValidationSchema } from '../validationSchema.js';
 
 const ChatForm = (props) => {
-  const { channel, contextProps: { nickname, rollbar } } = props;
+  const { channel, contextProps: { nickname } } = props;
+  const { t } = useTranslation();
 
   const inputRef = useRef();
 
@@ -22,14 +22,14 @@ const ChatForm = (props) => {
 
   const formik = useFormik({
     initialValues: {
-      messageText: '',
+      text: '',
     },
     validationSchema: messageValidationSchema,
     onSubmit: (values, { setSubmitting, resetForm, setFieldError }) => {
       const url = routes.channelMessagesPath(channel.id);
       axios.post(url, {
         data: {
-          attributes: { nickname, text: values.messageText, time: new Date() },
+          attributes: { nickname, text: values.text, time: new Date() },
         },
       })
         .then(() => {
@@ -37,7 +37,6 @@ const ChatForm = (props) => {
           resetForm();
         })
         .catch((err) => {
-          rollbar.error('ChatForm onSubmitHandler error', err.message);
           setSubmitting(false);
           setFieldError('network', err.message);
         });
@@ -47,36 +46,43 @@ const ChatForm = (props) => {
   return (
     <div id="new-message-form" className="mt-3">
 
-      <form className="new-message-form" onSubmit={formik.handleSubmit}>
-        <div className="form-group">
-          <div className="input-group">
-            <input
+      <Form onSubmit={formik.handleSubmit}>
+        <Form.Group>
+          <InputGroup>
+
+            <Form.Control
+              className="mr-2"
               type="text"
-              name="messageText"
+              name="text"
               placeholder={`Message #${channel.name}`}
               ref={inputRef}
-              className="mr-2 form-control"
               onChange={formik.handleChange}
-              value={formik.values.messageText}
+              value={formik.values.text}
               disabled={formik.isSubmitting}
+              isInvalid={!!formik.errors.text || !!formik.errors.network}
             />
 
-            <button
-              type="submit"
-              className="btn btn-primary"
-              disabled={formik.isSubmitting}
-            >
-              Send
-            </button>
+            <InputGroup.Append>
+              <Button disabled={formik.isSubmitting} type="submit">
+                {t('send')}
+                <span> </span>
+                <Spinner
+                  style={{ display: formik.isSubmitting ? 'inline-block' : 'none' }}
+                  as="span"
+                  animation="border"
+                  size="sm"
+                />
+              </Button>
+            </InputGroup.Append>
 
-            <div className="d-block invalid-feedback">
-              {formik.errors.messageText ? formik.errors.messageText : null}
-              {formik.errors.network ? formik.errors.network : null}
-            </div>
+            <Form.Control.Feedback type="invalid">
+              {formik.errors.text}
+              {formik.errors.network}
+            </Form.Control.Feedback>
 
-          </div>
-        </div>
-      </form>
+          </InputGroup>
+        </Form.Group>
+      </Form>
 
     </div>
   );

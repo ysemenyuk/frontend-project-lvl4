@@ -1,6 +1,7 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 import {
   Modal, Form, Button, Spinner,
@@ -10,6 +11,7 @@ import routes from '../../routes.js';
 
 const RemoveChannel = (props) => {
   const { modalData, onCloseModal } = props;
+  const { t } = useTranslation();
 
   const formik = useFormik({
     initialValues: {
@@ -33,7 +35,7 @@ const RemoveChannel = (props) => {
   return (
     <>
       <Modal.Header closeButton>
-        <Modal.Title>Remove channel</Modal.Title>
+        <Modal.Title>{t('removeChannel')}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
@@ -54,10 +56,10 @@ const RemoveChannel = (props) => {
 
           <div className="d-flex justify-content-end">
             <Button variant="secondary" className="mr-1" disabled={formik.isSubmitting} onClick={onCloseModal}>
-              Cancle
+              {t('cancle')}
             </Button>
             <Button variant="danger" className="mr-1" disabled={formik.isSubmitting} type="submit">
-              Confirm
+              {t('confirm')}
               <span> </span>
               <Spinner
                 style={{ display: formik.isSubmitting ? 'inline-block' : 'none' }}

@@ -9,10 +9,13 @@ import '../assets/application.scss';
 
 import gon from 'gon';
 
-import init from './init.jsx';
+import initRollbar from './rollbar.js';
+import initApp from './initApp.jsx';
+
+const rollbar = initRollbar();
 
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
 
-init(gon);
+initApp(gon, rollbar);

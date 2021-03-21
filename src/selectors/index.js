@@ -7,6 +7,11 @@ export const allMessages = (state) => chatSelectors.selectAll(state.messages);
 
 export const currentChannelId = (state) => state.channels.currentChannelId;
 
+export const allChannelsNames = createSelector(
+  allChannels,
+  (channels) => channels.map(({ name }) => name),
+);
+
 export const currentChannel = createSelector(
   allChannels,
   currentChannelId,

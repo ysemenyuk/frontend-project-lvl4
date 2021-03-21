@@ -7,7 +7,7 @@ import ChatList from './ChatList.jsx';
 
 import ApiTest from './ApiTest.jsx';
 
-import AppContext from '../appContext.js';
+import AppContext from '../context.js';
 import { currentChannelMessages, currentChannel } from '../selectors/index.js';
 
 const Chat = () => {
