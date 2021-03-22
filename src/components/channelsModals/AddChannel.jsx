@@ -16,8 +16,11 @@ const AddChannel = (props) => {
   const inputRef = useRef();
 
   useEffect(() => {
-    inputRef.current.focus();
-  }, []);
+    console.log('useEffect', inputRef.current);
+    // inputRef.current.focus();
+    inputRef.current.value = 123;
+    inputRef.current.select();
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -56,6 +59,7 @@ const AddChannel = (props) => {
             <Form.Control
               name="text"
               type="text"
+              autoFocus
               placeholder={t('enterChannelName')}
               ref={inputRef}
               onChange={formik.handleChange}

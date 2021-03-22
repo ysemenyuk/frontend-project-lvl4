@@ -10,6 +10,5 @@ export const channelValidationSchema = (channelNames) => Yup.object({
 
 export const messageValidationSchema = Yup.object({
   text: Yup.string()
-    .max(10, 'Too Long!')
     .required('Required'),
 });

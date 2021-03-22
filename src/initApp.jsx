@@ -6,7 +6,7 @@ import { configureStore } from '@reduxjs/toolkit';
 
 import App from './components/App.jsx';
 import AppContext from './context.js';
-import initSocet from './socet.js';
+import initSocket from './socket.js';
 import initCookies from './cookies.js';
 import initI18n from './i18n.js';
 
@@ -19,7 +19,7 @@ export default (gon, rollbar) => {
   store.dispatch(initState(gon));
 
   initI18n();
-  initSocet(store);
+  initSocket(store);
 
   const { nickname } = initCookies();
 

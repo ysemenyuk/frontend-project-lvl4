@@ -7,23 +7,23 @@ import {
 export default (store) => {
   const socket = io();
 
-  socket.on('newMessage', (responce) => {
-    const message = responce.data.attributes;
+  socket.on('newMessage', (response) => {
+    const message = response.data.attributes;
     store.dispatch(addMessage(message));
   });
 
-  socket.on('newChannel', (responce) => {
-    const channel = responce.data.attributes;
+  socket.on('newChannel', (response) => {
+    const channel = response.data.attributes;
     store.dispatch(addChannel(channel));
   });
 
-  socket.on('renameChannel', (responce) => {
-    const channel = responce.data.attributes;
+  socket.on('renameChannel', (response) => {
+    const channel = response.data.attributes;
     store.dispatch(renameChannel(channel));
   });
 
-  socket.on('removeChannel', (responce) => {
-    const channelId = responce.data.id;
+  socket.on('removeChannel', (response) => {
+    const channelId = response.data.id;
     store.dispatch(removeChannel(channelId));
   });
 };

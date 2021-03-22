@@ -18,8 +18,8 @@ const ApiTest = () => {
         attributes: { nickname, text: 'test text', time: (new Date()).toJSON() },
       },
     })
-      .then((responce) => {
-        console.log('testAddMessageHandler responce', responce.data.data.attributes);
+      .then((response) => {
+        console.log('testAddMessageHandler response', response.data.data.attributes);
       })
       .catch((err) => {
         console.log('testAddMessageHandler error', err.message);
@@ -34,8 +34,8 @@ const ApiTest = () => {
         attributes: { name: 'test channel name' },
       },
     })
-      .then((responce) => {
-        console.log('testAddChannelHandler responce', responce.data.data.attributes);
+      .then((response) => {
+        console.log('testAddChannelHandler response', response.data.data.attributes);
       })
       .catch((err) => {
         console.log('testAddChannelHandler error', err.message);

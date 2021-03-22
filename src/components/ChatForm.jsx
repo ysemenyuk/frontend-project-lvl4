@@ -62,18 +62,16 @@ const ChatForm = (props) => {
               isInvalid={!!formik.errors.text || !!formik.errors.network}
             />
 
-            <InputGroup.Append>
-              <Button disabled={formik.isSubmitting} type="submit">
-                {t('send')}
-                <span> </span>
-                <Spinner
-                  style={{ display: formik.isSubmitting ? 'inline-block' : 'none' }}
-                  as="span"
-                  animation="border"
-                  size="sm"
-                />
-              </Button>
-            </InputGroup.Append>
+            <Button disabled={formik.isSubmitting} type="submit">
+              {t('send')}
+              <span> </span>
+              <Spinner
+                style={{ display: formik.isSubmitting ? 'inline-block' : 'none' }}
+                as="span"
+                animation="border"
+                size="sm"
+              />
+            </Button>
 
             <Form.Control.Feedback type="invalid">
               {formik.errors.text}
