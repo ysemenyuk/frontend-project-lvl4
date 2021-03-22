@@ -16,6 +16,7 @@ const RenameChannel = (props) => {
   const inputRef = useRef();
 
   useEffect(() => {
+    console.log('useEffect', inputRef.current);
     inputRef.current.select();
   }, []);
 
@@ -24,6 +25,7 @@ const RenameChannel = (props) => {
       text: modalData.name,
     },
     validationSchema,
+    validateOnChange: false,
     onSubmit: (values, { setSubmitting, resetForm, setFieldError }) => {
       const url = routes.channelPath(modalData.id);
       axios.patch(url, {

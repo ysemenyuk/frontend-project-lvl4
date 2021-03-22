@@ -13,8 +13,8 @@ import { currentChannelMessages, currentChannel } from '../selectors/index.js';
 const Chat = () => {
   const messages = useSelector(currentChannelMessages);
   const channel = useSelector(currentChannel);
-  const contextProps = useContext(AppContext);
-
+  const { nickname } = useContext(AppContext);
+  console.log('chat');
   return (
     <div className="d-flex flex-column h-100">
       <div className="border-bottom pb-2 d-flex">
@@ -25,7 +25,7 @@ const Chat = () => {
         </h5>
       </div>
       <ChatList messages={messages} />
-      <ChatForm contextProps={contextProps} channel={channel} />
+      <ChatForm nickname={nickname} channel={channel} />
       <ApiTest />
     </div>
   );

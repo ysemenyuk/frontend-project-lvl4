@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
@@ -7,15 +7,13 @@ import { selectChannel, openModal } from '../store/index.js';
 
 import ChannelsModal from './channelsModals/index.jsx';
 import ChannelsList from './ChannelsList.jsx';
-import AppContext from '../context.js';
 
 const Channels = () => {
   const dispatch = useDispatch();
   const channels = useSelector(allChannels);
   const currentChannel = useSelector(currentChannelId);
-  const contextProps = useContext(AppContext);
   const { t } = useTranslation();
-
+  console.log('channels');
   const handleSelectChannel = (id) => () => {
     dispatch(selectChannel(id));
   };
@@ -45,7 +43,6 @@ const Channels = () => {
         </button>
       </div>
       <ChannelsList
-        contextProps={contextProps}
         currentChannelId={currentChannel}
         channels={channels}
         onSelectChannel={handleSelectChannel}

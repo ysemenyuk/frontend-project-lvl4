@@ -1,5 +1,4 @@
-import React from 'react';
-import { useFormik } from 'formik';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 
@@ -12,25 +11,23 @@ import routes from '../../routes.js';
 const RemoveChannel = (props) => {
   const { modalData, onCloseModal } = props;
   const { t } = useTranslation();
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState(null);
 
-  const formik = useFormik({
-    initialValues: {
-      text: '',
-    },
-    onSubmit: (values, { setSubmitting, resetForm, setFieldError }) => {
-      const url = routes.channelPath(modalData.id);
-      axios.delete(url)
-        .then(() => {
-          setSubmitting(false);
-          resetForm();
-          onCloseModal();
-        })
-        .catch((err) => {
-          setSubmitting(false);
-          setFieldError('network', err.message);
-        });
-    },
-  });
+  const onSubmit = (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+    const url = routes.channelPath(modalData.id);
+    axios.delete(url)
+      .then(() => {
+        setSubmitting(false);
+        onCloseModal();
+      })
+      .catch(() => {
+        setSubmitting(false);
+        setError('Network Error');
+      });
+  };
 
   return (
     <>
@@ -39,30 +36,29 @@ const RemoveChannel = (props) => {
       </Modal.Header>
 
       <Modal.Body>
-        <Form onSubmit={formik.handleSubmit}>
+        <Form onSubmit={onSubmit}>
 
-          <Form.Group>
-            <Form.Control
-              name="text"
-              type="text"
-              value={modalData.name}
-              disabled
-              isInvalid={!!formik.errors.network}
-            />
-            <Form.Control.Feedback type="invalid">
-              {formik.errors.network}
-            </Form.Control.Feedback>
-          </Form.Group>
+          <div className="mb-1">
+            {t('sureRemove')}
+          </div>
+
+          <div className="mb-3">
+            <b>{`"${modalData.name}"`}</b>
+          </div>
+
+          <div className="text-danger">
+            <small>{error}</small>
+          </div>
 
           <div className="d-flex justify-content-end">
-            <Button variant="secondary" className="mr-1" disabled={formik.isSubmitting} onClick={onCloseModal}>
+            <Button variant="secondary" className="mr-1" disabled={submitting} onClick={onCloseModal}>
               {t('cancle')}
             </Button>
-            <Button variant="danger" className="mr-1" disabled={formik.isSubmitting} type="submit">
+            <Button variant="danger" className="mr-1" disabled={submitting} type="submit">
               {t('confirm')}
               <span> </span>
               <Spinner
-                style={{ display: formik.isSubmitting ? 'inline-block' : 'none' }}
+                style={{ display: submitting ? 'inline-block' : 'none' }}
                 as="span"
                 animation="border"
                 size="sm"

@@ -11,12 +11,13 @@ import routes from '../routes.js';
 import { messageValidationSchema } from '../validationSchema.js';
 
 const ChatForm = (props) => {
-  const { channel, contextProps: { nickname } } = props;
+  const { channel, nickname } = props;
   const { t } = useTranslation();
-
+  console.log('chatform');
   const inputRef = useRef();
 
   useEffect(() => {
+    console.log('useEffect chatform');
     inputRef.current.focus();
   });
 
@@ -25,6 +26,7 @@ const ChatForm = (props) => {
       text: '',
     },
     validationSchema: messageValidationSchema,
+    validateOnChange: false,
     onSubmit: (values, { setSubmitting, resetForm, setFieldError }) => {
       const url = routes.channelMessagesPath(channel.id);
       axios.post(url, {
@@ -54,6 +56,7 @@ const ChatForm = (props) => {
               className="mr-2"
               type="text"
               name="text"
+              // autoFocus
               placeholder={`Message #${channel.name}`}
               ref={inputRef}
               onChange={formik.handleChange}

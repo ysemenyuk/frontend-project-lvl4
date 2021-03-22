@@ -34,7 +34,7 @@ const ChannelsModal = () => {
   }
 
   const ModalBody = modals[modalType];
-
+  console.log('modal');
   return (
     <Modal show={modalShow} onHide={handleCloseModal}>
       <ModalBody

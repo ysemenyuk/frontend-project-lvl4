@@ -10,23 +10,25 @@ import {
 import routes from '../../routes.js';
 
 const AddChannel = (props) => {
+  console.log('add');
   const { onCloseModal, validationSchema } = props;
   const { t } = useTranslation();
 
   const inputRef = useRef();
 
   useEffect(() => {
-    console.log('useEffect', inputRef.current);
-    // inputRef.current.focus();
-    inputRef.current.value = 123;
-    inputRef.current.select();
-  });
+    console.log('useEffect add modal', inputRef.current);
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
 
   const formik = useFormik({
     initialValues: {
       text: '',
     },
     validationSchema,
+    validateOnChange: false,
     onSubmit: (values, { setSubmitting, resetForm, setFieldError }) => {
       const url = routes.channelsPath();
       axios.post(url, {
@@ -59,9 +61,9 @@ const AddChannel = (props) => {
             <Form.Control
               name="text"
               type="text"
-              autoFocus
-              placeholder={t('enterChannelName')}
+              // placeholder={t('enterChannelName')}
               ref={inputRef}
+              // autoFocus
               onChange={formik.handleChange}
               value={formik.values.text}
               disabled={formik.isSubmitting}

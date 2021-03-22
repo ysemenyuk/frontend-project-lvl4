@@ -8,7 +8,7 @@ export default {
     renameChannel: 'Reneme channel',
     remove: 'remove',
     rename: 'rename',
-    sureRemove: 'Are you sure?',
+    sureRemove: 'Are you sure you want to delete this channel?',
     submit: 'Submit',
     cancle: 'Cancle',
     send: 'Send',
