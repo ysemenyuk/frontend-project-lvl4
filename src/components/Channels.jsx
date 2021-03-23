@@ -9,11 +9,13 @@ import ChannelsModal from './channelsModals/index.jsx';
 import ChannelsList from './ChannelsList.jsx';
 
 const Channels = () => {
+  console.log('channels');
+
   const dispatch = useDispatch();
   const channels = useSelector(allChannels);
   const currentChannel = useSelector(currentChannelId);
   const { t } = useTranslation();
-  console.log('channels');
+
   const handleSelectChannel = (id) => () => {
     dispatch(selectChannel(id));
   };

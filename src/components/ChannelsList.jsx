@@ -3,6 +3,8 @@ import React from 'react';
 import ChannelsListItem from './ChannelsListItem.jsx';
 
 const ChannelsList = (props) => {
+  console.log('ChannelsList');
+
   const {
     channels, currentChannelId, onSelectChannel,
     onRemoveChannel, onRenameChannel,

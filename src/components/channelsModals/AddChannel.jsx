@@ -58,12 +58,11 @@ const AddChannel = (props) => {
         <Form onSubmit={formik.handleSubmit}>
 
           <Form.Group>
+            <Form.Label>{t('channelName')}</Form.Label>
             <Form.Control
               name="text"
               type="text"
-              // placeholder={t('enterChannelName')}
               ref={inputRef}
-              // autoFocus
               onChange={formik.handleChange}
               value={formik.values.text}
               disabled={formik.isSubmitting}

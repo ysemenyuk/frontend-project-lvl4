@@ -3,6 +3,8 @@ import React, { useEffect, useRef } from 'react';
 import { Badge } from 'react-bootstrap';
 
 const ChatList = ({ messages }) => {
+  console.log('ChatList');
+
   const messagesContainer = useRef();
 
   useEffect(() => {

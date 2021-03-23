@@ -55,6 +55,7 @@ const RenameChannel = (props) => {
         <Form onSubmit={formik.handleSubmit}>
 
           <Form.Group>
+            <Form.Label>{t('channelName')}</Form.Label>
             <Form.Control
               name="text"
               type="text"

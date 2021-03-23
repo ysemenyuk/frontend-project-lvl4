@@ -8,16 +8,15 @@ import {
 } from 'react-bootstrap';
 
 import routes from '../routes.js';
-import { messageValidationSchema } from '../validationSchema.js';
 
 const ChatForm = (props) => {
+  console.log('chatform');
+
   const { channel, nickname } = props;
   const { t } = useTranslation();
-  console.log('chatform');
   const inputRef = useRef();
 
   useEffect(() => {
-    console.log('useEffect chatform');
     inputRef.current.focus();
   });
 
@@ -25,8 +24,6 @@ const ChatForm = (props) => {
     initialValues: {
       text: '',
     },
-    validationSchema: messageValidationSchema,
-    validateOnChange: false,
     onSubmit: (values, { setSubmitting, resetForm, setFieldError }) => {
       const url = routes.channelMessagesPath(channel.id);
       axios.post(url, {
@@ -48,12 +45,13 @@ const ChatForm = (props) => {
   return (
     <div id="new-message-form" className="mt-3">
 
-      <Form onSubmit={formik.handleSubmit}>
+      <Form noValidate onSubmit={formik.handleSubmit}>
         <Form.Group>
           <InputGroup>
 
             <Form.Control
-              className="mr-2"
+              // className="mr-2"
+              aria-describedby="basic-addon2"
               type="text"
               name="text"
               // autoFocus
@@ -62,19 +60,25 @@ const ChatForm = (props) => {
               onChange={formik.handleChange}
               value={formik.values.text}
               disabled={formik.isSubmitting}
-              isInvalid={!!formik.errors.text || !!formik.errors.network}
+              isInvalid={formik.errors.text || formik.errors.network}
             />
 
-            <Button disabled={formik.isSubmitting} type="submit">
-              {t('send')}
-              <span> </span>
-              <Spinner
-                style={{ display: formik.isSubmitting ? 'inline-block' : 'none' }}
-                as="span"
-                animation="border"
-                size="sm"
-              />
-            </Button>
+            <InputGroup.Append>
+              <Button
+                disabled={formik.isSubmitting || !formik.values.text.trim()}
+                type="submit"
+                id="basic-addon2"
+              >
+                {t('send')}
+                <span> </span>
+                <Spinner
+                  style={{ display: formik.isSubmitting ? 'inline-block' : 'none' }}
+                  as="span"
+                  animation="border"
+                  size="sm"
+                />
+              </Button>
+            </InputGroup.Append>
 
             <Form.Control.Feedback type="invalid">
               {formik.errors.text}

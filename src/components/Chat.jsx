@@ -5,16 +5,16 @@ import { Badge } from 'react-bootstrap';
 import ChatForm from './ChatForm.jsx';
 import ChatList from './ChatList.jsx';
 
-import ApiTest from './ApiTest.jsx';
-
 import AppContext from '../context.js';
 import { currentChannelMessages, currentChannel } from '../selectors/index.js';
 
 const Chat = () => {
+  console.log('chat');
+
   const messages = useSelector(currentChannelMessages);
   const channel = useSelector(currentChannel);
   const { nickname } = useContext(AppContext);
-  console.log('chat');
+
   return (
     <div className="d-flex flex-column h-100">
       <div className="border-bottom pb-2 d-flex">
@@ -25,8 +25,7 @@ const Chat = () => {
         </h5>
       </div>
       <ChatList messages={messages} />
-      <ChatForm nickname={nickname} channel={channel} />
-      <ApiTest />
+      <ChatForm channel={channel} nickname={nickname} />
     </div>
   );
 };
