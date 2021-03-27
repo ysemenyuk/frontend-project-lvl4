@@ -2,18 +2,18 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { allChannels, currentChannelId } from '../selectors/index.js';
+import { selectAllChannels, selectCurrentChannel } from '../selectors/index.js';
 import { selectChannel, openModal } from '../store/index.js';
 
 import ChannelsModal from './channelsModals/index.jsx';
 import ChannelsList from './ChannelsList.jsx';
 
 const Channels = () => {
-  console.log('channels');
+  console.log('Channels');
 
   const dispatch = useDispatch();
-  const channels = useSelector(allChannels);
-  const currentChannel = useSelector(currentChannelId);
+  const channels = useSelector(selectAllChannels);
+  const currentChannel = useSelector(selectCurrentChannel);
   const { t } = useTranslation();
 
   const handleSelectChannel = (id) => () => {
@@ -45,7 +45,7 @@ const Channels = () => {
         </button>
       </div>
       <ChannelsList
-        currentChannelId={currentChannel}
+        currentChannel={currentChannel}
         channels={channels}
         onSelectChannel={handleSelectChannel}
         onRemoveChannel={handleRemoveChannel}

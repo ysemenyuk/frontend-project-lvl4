@@ -10,18 +10,16 @@ import {
 import routes from '../../routes.js';
 
 const AddChannel = (props) => {
-  console.log('add');
   const { onCloseModal, validationSchema } = props;
   const { t } = useTranslation();
 
   const inputRef = useRef();
 
   useEffect(() => {
-    console.log('useEffect add modal', inputRef.current);
     if (inputRef.current) {
       inputRef.current.focus();
     }
-  }, []);
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -65,12 +63,12 @@ const AddChannel = (props) => {
               ref={inputRef}
               onChange={formik.handleChange}
               value={formik.values.text}
-              disabled={formik.isSubmitting}
-              isInvalid={!!formik.errors.text || !!formik.errors.network}
+              // disabled={formik.isSubmitting}
+              isInvalid={formik.errors.text || formik.errors.network}
             />
             <Form.Control.Feedback type="invalid">
-              {formik.errors.text ? formik.errors.text : null}
-              {formik.errors.network ? formik.errors.network : null}
+              {formik.errors.text ? t(formik.errors.text.key) : null}
+              {formik.errors.network}
             </Form.Control.Feedback>
           </Form.Group>
 
@@ -80,7 +78,7 @@ const AddChannel = (props) => {
             </Button>
             <Button variant="primary" className="mr-1" disabled={formik.isSubmitting} type="submit">
               {t('submit')}
-              <span> </span>
+              {' '}
               <Spinner
                 style={{ display: formik.isSubmitting ? 'inline-block' : 'none' }}
                 as="span"

@@ -2,15 +2,10 @@ import faker from 'faker';
 import Cookies from 'js-cookie';
 
 export default () => {
-  const existingNickname = Cookies.get('nickname');
-  console.log({ existingNickname });
+  const nickname = Cookies.get('nickname') ? Cookies.get('nickname') : faker.name.findName();
+  Cookies.set('nickname', nickname, { expires: 7 });
 
-  if (existingNickname !== undefined) {
-    return { nickname: existingNickname };
-  }
+  console.log({ nickname });
 
-  const newNickname = faker.name.findName();
-  Cookies.set('nickname', newNickname);
-  console.log({ newNickname });
-  return { nickname: newNickname };
+  return { nickname };
 };

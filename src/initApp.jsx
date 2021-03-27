@@ -1,34 +1,15 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-
 import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
 
 import App from './components/App.jsx';
-import AppContext from './context.js';
-import initSocket from './socket.js';
-import initCookies from './cookies.js';
-import initI18n from './i18n.js';
+import { UserContext, LoggerContext } from './context.js';
 
-import reducer, { initState } from './store/index.js';
-
-export default (gon, rollbar) => {
-  console.log('gon', gon);
-
-  const store = configureStore({ reducer });
-  store.dispatch(initState(gon));
-
-  initI18n();
-  initSocket(store);
-
-  const { nickname } = initCookies();
-
-  ReactDOM.render(
-    <Provider store={store}>
-      <AppContext.Provider value={{ nickname, rollbar }}>
+export default (store, rollbar, nickname) => (
+  <Provider store={store}>
+    <LoggerContext.Provider value={{ rollbar }}>
+      <UserContext.Provider value={{ nickname }}>
         <App />
-      </AppContext.Provider>
-    </Provider>,
-    document.getElementById('chat'),
-  );
-};
+      </UserContext.Provider>
+    </LoggerContext.Provider>
+  </Provider>
+);

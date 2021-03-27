@@ -1,24 +1,21 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
 import { useFormik } from 'formik';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
-
 import {
   Button, Form, Spinner, InputGroup,
 } from 'react-bootstrap';
 
+import { UserContext } from '../context.js';
 import routes from '../routes.js';
 
 const ChatForm = (props) => {
   console.log('chatform');
 
-  const { channel, nickname } = props;
+  const { nickname } = useContext(UserContext);
+  const { channel } = props;
   const { t } = useTranslation();
   const inputRef = useRef();
-
-  useEffect(() => {
-    inputRef.current.focus();
-  });
 
   const formik = useFormik({
     initialValues: {
@@ -42,24 +39,24 @@ const ChatForm = (props) => {
     },
   });
 
+  useEffect(() => {
+    inputRef.current.focus();
+  }, [formik.values.text, channel]);
+
   return (
     <div id="new-message-form" className="mt-3">
 
-      <Form noValidate onSubmit={formik.handleSubmit}>
+      <Form onSubmit={formik.handleSubmit}>
         <Form.Group>
           <InputGroup>
 
             <Form.Control
-              // className="mr-2"
-              aria-describedby="basic-addon2"
               type="text"
               name="text"
-              // autoFocus
               placeholder={`Message #${channel.name}`}
               ref={inputRef}
               onChange={formik.handleChange}
               value={formik.values.text}
-              disabled={formik.isSubmitting}
               isInvalid={formik.errors.text || formik.errors.network}
             />
 
@@ -67,7 +64,6 @@ const ChatForm = (props) => {
               <Button
                 disabled={formik.isSubmitting || !formik.values.text.trim()}
                 type="submit"
-                id="basic-addon2"
               >
                 {t('send')}
                 <span> </span>

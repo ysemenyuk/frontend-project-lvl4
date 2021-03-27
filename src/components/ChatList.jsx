@@ -19,7 +19,7 @@ const ChatList = ({ messages }) => {
           <div key={id}>
             <div>
               <b>{nickname}</b>
-              <span>  </span>
+              {' '}
               <Badge variant="light">{t}</Badge>
             </div>
             <div>

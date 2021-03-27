@@ -13,5 +13,9 @@ export default {
     cancle: 'Cancel',
     send: 'Send',
     confirm: 'Confirm',
+    required: 'Required field!',
+    toShort: 'Must be more than 3 characters!',
+    toLong: 'Must be less than 30 characters!',
+    notOneOf: 'Must be unique channel name',
   },
 };

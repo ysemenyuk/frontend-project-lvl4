@@ -1,3 +1,5 @@
 import React from 'react';
 
-export default React.createContext();
+export const LoggerContext = React.createContext();
+
+export const UserContext = React.createContext();

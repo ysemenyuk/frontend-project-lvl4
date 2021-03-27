@@ -1,19 +1,17 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { Badge } from 'react-bootstrap';
 
 import ChatForm from './ChatForm.jsx';
 import ChatList from './ChatList.jsx';
 
-import AppContext from '../context.js';
-import { currentChannelMessages, currentChannel } from '../selectors/index.js';
+import { selectCurrentChannelMessages, selectCurrentChannel } from '../selectors/index.js';
 
 const Chat = () => {
   console.log('chat');
 
-  const messages = useSelector(currentChannelMessages);
-  const channel = useSelector(currentChannel);
-  const { nickname } = useContext(AppContext);
+  const messages = useSelector(selectCurrentChannelMessages);
+  const channel = useSelector(selectCurrentChannel);
 
   return (
     <div className="d-flex flex-column h-100">
@@ -25,7 +23,7 @@ const Chat = () => {
         </h5>
       </div>
       <ChatList messages={messages} />
-      <ChatForm channel={channel} nickname={nickname} />
+      <ChatForm channel={channel} />
     </div>
   );
 };

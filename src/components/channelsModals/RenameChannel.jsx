@@ -16,9 +16,8 @@ const RenameChannel = (props) => {
   const inputRef = useRef();
 
   useEffect(() => {
-    console.log('useEffect', inputRef.current);
     inputRef.current.select();
-  }, []);
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -66,7 +65,7 @@ const RenameChannel = (props) => {
               isInvalid={!!formik.errors.text || !!formik.errors.network}
             />
             <Form.Control.Feedback type="invalid">
-              {formik.errors.text}
+              {formik.errors.text ? t(formik.errors.text.key) : null}
               {formik.errors.network}
             </Form.Control.Feedback>
           </Form.Group>
@@ -77,7 +76,7 @@ const RenameChannel = (props) => {
             </Button>
             <Button variant="primary" className="mr-1" disabled={formik.isSubmitting} type="submit">
               {t('submit')}
-              <span> </span>
+              {' '}
               <Spinner
                 style={{ display: formik.isSubmitting ? 'inline-block' : 'none' }}
                 as="span"
