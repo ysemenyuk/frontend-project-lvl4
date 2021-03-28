@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import App from './components/App.jsx';
 import { UserContext, LoggerContext } from './context.js';
 
-export default (store, rollbar, nickname) => (
+const initApp = (store, rollbar, nickname) => (
   <Provider store={store}>
     <LoggerContext.Provider value={{ rollbar }}>
       <UserContext.Provider value={{ nickname }}>
@@ -13,3 +13,5 @@ export default (store, rollbar, nickname) => (
     </LoggerContext.Provider>
   </Provider>
 );
+
+export default initApp;
