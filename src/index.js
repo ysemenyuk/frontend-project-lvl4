@@ -25,8 +25,6 @@ if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
 
-setLocale(yupLocale);
-
 const preloadedState = {
   channels: {
     ids: gon.channels.map(({ id }) => id),
@@ -41,6 +39,7 @@ const preloadedState = {
 
 const store = configureStore({ preloadedState, reducer });
 
+setLocale(yupLocale);
 initSocket(store);
 initI18n();
 

@@ -10,8 +10,6 @@ import { UserContext } from '../context.js';
 import routes from '../routes.js';
 
 const ChatForm = (props) => {
-  console.log('chatform');
-
   const { nickname } = useContext(UserContext);
   const { channel } = props;
   const { t } = useTranslation();

@@ -8,8 +8,6 @@ import ChatList from './ChatList.jsx';
 import { selectCurrentChannelMessages, selectCurrentChannel } from '../selectors/index.js';
 
 const Chat = () => {
-  console.log('chat');
-
   const messages = useSelector(selectCurrentChannelMessages);
   const channel = useSelector(selectCurrentChannel);
 

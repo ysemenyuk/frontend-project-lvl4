@@ -2,8 +2,6 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 const ChannelsList = (props) => {
-  console.log('ChannelsList');
-
   const { t } = useTranslation();
   const {
     channels, currentChannel, onSelectChannel,

@@ -130,11 +130,4 @@ export default (app, io, defaultState = {}) => {
       reply.send(data);
       io.emit('newMessage', data);
     });
-
-  io.on('connection', (socket) => {
-    console.log('a user connected');
-    socket.on('disconnect', () => {
-      console.log('user disconnected');
-    });
-  });
 };

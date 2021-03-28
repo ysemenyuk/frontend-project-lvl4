@@ -9,8 +9,6 @@ import ChannelsModal from './channelsModals/index.jsx';
 import ChannelsList from './ChannelsList.jsx';
 
 const Channels = () => {
-  console.log('Channels');
-
   const dispatch = useDispatch();
   const channels = useSelector(selectAllChannels);
   const currentChannel = useSelector(selectCurrentChannel);
