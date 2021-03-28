@@ -8,6 +8,7 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
 import '../assets/application.scss';
+import '../assets/favicon.ico';
 
 import gon from 'gon';
 

@@ -1,7 +1,6 @@
 import path from 'path';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import Dotenv from 'dotenv-webpack';
-// import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 const mode = process.env.NODE_ENV || 'development';
 
@@ -26,9 +25,6 @@ module.exports = {
   plugins: [
     new Dotenv({ systemvars: true }),
     new MiniCssExtractPlugin(),
-    // new HtmlWebpackPlugin({
-    //   favicon: '/assets/favicon.ico',
-    // }),
   ],
   module: {
     rules: [
@@ -45,6 +41,13 @@ module.exports = {
           { loader: 'postcss-loader' },
           { loader: 'sass-loader' },
         ],
+      },
+      {
+        test: /\.ico$/,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]',
+        },
       },
     ],
   },

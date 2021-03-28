@@ -17,6 +17,10 @@ const RenameChannel = (props) => {
 
   useEffect(() => {
     inputRef.current.select();
+  }, []);
+
+  useEffect(() => {
+    inputRef.current.focus();
   });
 
   const formik = useFormik({
