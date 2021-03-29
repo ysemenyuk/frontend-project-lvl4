@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Modal } from 'react-bootstrap';
 
-import { closeModal } from '../../store/index.js';
+import { modalActions } from '../../store/index.js';
 import { selectModal, selectAllChannelsNames } from '../../selectors/index.js';
 import channelValidationSchema from './validationSchema.js';
 
@@ -26,7 +26,7 @@ const ChannelsModal = () => {
     [channelsNames]);
 
   const handleCloseModal = () => {
-    dispatch(closeModal());
+    dispatch(modalActions.closeModal());
   };
 
   if (modalShow === false) {

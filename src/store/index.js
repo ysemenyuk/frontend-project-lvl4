@@ -67,11 +67,9 @@ const modal = createSlice({
   },
 });
 
-export const {
-  selectChannel, initState, removeChannel, addChannel, renameChannel,
-} = channels.actions;
-export const { addMessage } = messages.actions;
-export const { openModal, closeModal } = modal.actions;
+export const channelsActions = channels.actions;
+export const messagesActions = messages.actions;
+export const modalActions = modal.actions;
 
 export default {
   channels: channels.reducer,

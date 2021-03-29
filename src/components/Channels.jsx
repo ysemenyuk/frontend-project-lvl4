@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import { selectAllChannels, selectCurrentChannel } from '../selectors/index.js';
-import { selectChannel, openModal } from '../store/index.js';
+import { channelsActions, modalActions } from '../store/index.js';
 
 import ChannelsModal from './channelsModals/index.jsx';
 import ChannelsList from './ChannelsList.jsx';
@@ -15,19 +15,19 @@ const Channels = () => {
   const { t } = useTranslation();
 
   const handleSelectChannel = (id) => () => {
-    dispatch(selectChannel(id));
+    dispatch(channelsActions.selectChannel(id));
   };
 
   const handleAddChannel = () => {
-    dispatch(openModal({ modalType: 'adding' }));
+    dispatch(modalActions.openModal({ modalType: 'adding' }));
   };
 
   const handleRemoveChannel = (modalData) => () => {
-    dispatch(openModal({ modalType: 'removing', modalData }));
+    dispatch(modalActions.openModal({ modalType: 'removing', modalData }));
   };
 
   const handleRenameChannel = (modalData) => () => {
-    dispatch(openModal({ modalType: 'renaming', modalData }));
+    dispatch(modalActions.openModal({ modalType: 'renaming', modalData }));
   };
 
   return (
