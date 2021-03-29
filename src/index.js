@@ -12,11 +12,11 @@ import '../assets/favicon.ico';
 
 import gon from 'gon';
 
-import initRollbar from './rollbar.js';
 import initApp from './initApp.jsx';
+import initRollbar from './rollbar.js';
 import initSocket from './socket.js';
-import initCookies from './cookies.js';
-import initI18n from './i18n.js';
+import getUserName from './getUserName.js';
+import i18n from './i18n.js';
 
 import yupLocale from './locales/yupLocale.js';
 import reducer from './store/index.js';
@@ -41,12 +41,14 @@ const store = configureStore({ preloadedState, reducer });
 
 setLocale(yupLocale);
 initSocket(store);
-initI18n();
 
-const rollbar = initRollbar();
-const { nickname } = initCookies();
+// const rollbar = initRollbar();
+// const nickname = getUserName();
+
+const loggerContextValue = { rollbar: initRollbar() };
+const userContextValue = { nickname: getUserName() };
 
 ReactDOM.render(
-  initApp(store, rollbar, nickname),
+  initApp(store, loggerContextValue, userContextValue, i18n),
   document.getElementById('chat'),
 );
