@@ -2,6 +2,7 @@
 import ReactDOM from 'react-dom';
 import { configureStore } from '@reduxjs/toolkit';
 import { setLocale } from 'yup';
+import keyBy from 'lodash/keyBy';
 import 'bootstrap';
 
 import 'core-js/stable';
@@ -28,12 +29,12 @@ if (process.env.NODE_ENV !== 'production') {
 const preloadedState = {
   channels: {
     ids: gon.channels.map(({ id }) => id),
-    entities: gon.channels.reduce((acc, item) => ({ ...acc, [item.id]: item }), {}),
+    entities: keyBy(gon.channels, 'id'),
     currentChannelId: gon.currentChannelId,
   },
   messages: {
     ids: gon.messages.map(({ id }) => id),
-    entities: gon.messages.reduce((acc, item) => ({ ...acc, [item.id]: item }), {}),
+    entities: keyBy(gon.messages, 'id'),
   },
 };
 
@@ -41,9 +42,6 @@ const store = configureStore({ preloadedState, reducer });
 
 setLocale(yupLocale);
 initSocket(store);
-
-// const rollbar = initRollbar();
-// const nickname = getUserName();
 
 const loggerContextValue = { rollbar: initRollbar() };
 const userContextValue = { nickname: getUserName() };
