@@ -3,8 +3,8 @@ import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
 
 const chatAdapter = createEntityAdapter();
 
-export const channelsSelectors = chatAdapter.getSelectors((state) => state.channels);
-export const messagesSelectors = chatAdapter.getSelectors((state) => state.messages);
+export const adapterChannelsSelectors = chatAdapter.getSelectors((state) => state.channels);
+export const adapterMessagesSelectors = chatAdapter.getSelectors((state) => state.messages);
 
 const channels = createSlice({
   name: 'channels',

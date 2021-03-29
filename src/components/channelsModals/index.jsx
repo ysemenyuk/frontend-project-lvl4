@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from 'react-bootstrap';
 
 import { modalActions } from '../../store/index.js';
-import { selectModal, selectAllChannelsNames } from '../../selectors/index.js';
+import { selectModal, channelsSelectors } from '../../selectors/index.js';
 import channelValidationSchema from './validationSchema.js';
 
 import AddChannel from './AddChannel.jsx';
@@ -20,7 +20,7 @@ const modals = {
 const ChannelsModal = () => {
   const dispatch = useDispatch();
   const { modalShow, modalType, modalData } = useSelector(selectModal);
-  const channelsNames = useSelector(selectAllChannelsNames);
+  const channelsNames = useSelector(channelsSelectors.selectAllChannelsNames);
 
   const memoizedValidationSchema = useMemo(() => channelValidationSchema(channelsNames),
     [channelsNames]);

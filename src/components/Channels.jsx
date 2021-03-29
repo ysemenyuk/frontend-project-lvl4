@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { selectAllChannels, selectCurrentChannel } from '../selectors/index.js';
+import { channelsSelectors } from '../selectors/index.js';
 import { channelsActions, modalActions } from '../store/index.js';
 
 import ChannelsModal from './channelsModals/index.jsx';
@@ -10,8 +10,8 @@ import ChannelsList from './ChannelsList.jsx';
 
 const Channels = () => {
   const dispatch = useDispatch();
-  const channels = useSelector(selectAllChannels);
-  const currentChannel = useSelector(selectCurrentChannel);
+  const channels = useSelector(channelsSelectors.selectAll);
+  const currentChannel = useSelector(channelsSelectors.selectCurrentChannel);
   const { t } = useTranslation();
 
   const handleSelectChannel = (id) => () => {

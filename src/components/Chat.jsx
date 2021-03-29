@@ -5,11 +5,11 @@ import { Badge } from 'react-bootstrap';
 import ChatForm from './ChatForm.jsx';
 import ChatList from './ChatList.jsx';
 
-import { selectCurrentChannelMessages, selectCurrentChannel } from '../selectors/index.js';
+import { channelsSelectors, messagesSelectors } from '../selectors/index.js';
 
 const Chat = () => {
-  const messages = useSelector(selectCurrentChannelMessages);
-  const channel = useSelector(selectCurrentChannel);
+  const messages = useSelector(messagesSelectors.selectCurrentChannelMessages);
+  const channel = useSelector(channelsSelectors.selectCurrentChannel);
 
   return (
     <div className="d-flex flex-column h-100">
