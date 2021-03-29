@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { configureStore } from '@reduxjs/toolkit';
 import { setLocale } from 'yup';
 import keyBy from 'lodash/keyBy';
+import map from 'lodash/map';
 import 'bootstrap';
 
 import 'core-js/stable';
@@ -28,12 +29,12 @@ if (process.env.NODE_ENV !== 'production') {
 
 const preloadedState = {
   channels: {
-    ids: gon.channels.map(({ id }) => id),
+    ids: map(gon.channels, 'id'),
     entities: keyBy(gon.channels, 'id'),
     currentChannelId: gon.currentChannelId,
   },
   messages: {
-    ids: gon.messages.map(({ id }) => id),
+    ids: map(gon.messages, 'id'),
     entities: keyBy(gon.messages, 'id'),
   },
 };
