@@ -1,12 +1,9 @@
 /* eslint-disable no-param-reassign */
-import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
-const chatAdapter = createEntityAdapter();
+import chatAdapter from './adapter.js';
 
-export const adapterChannelsSelectors = chatAdapter.getSelectors((state) => state.channels);
-export const adapterMessagesSelectors = chatAdapter.getSelectors((state) => state.messages);
-
-const channels = createSlice({
+const channelsSlice = createSlice({
   name: 'channels',
   initialState: chatAdapter.getInitialState({
     currentChannelId: null,
@@ -29,7 +26,7 @@ const channels = createSlice({
   },
 });
 
-const messages = createSlice({
+const messagesSlice = createSlice({
   name: 'messages',
   initialState: chatAdapter.getInitialState(),
   reducers: {
@@ -38,7 +35,7 @@ const messages = createSlice({
     },
   },
   extraReducers: {
-    [channels.actions.removeChannel]: (state, action) => {
+    [channelsSlice.actions.removeChannel]: (state, action) => {
       const channelMessagesIds = state.ids
         .filter((id) => state.entities[id].channelId === action.payload);
       chatAdapter.removeMany(state, channelMessagesIds);
@@ -46,7 +43,7 @@ const messages = createSlice({
   },
 });
 
-const modal = createSlice({
+const modalSlice = createSlice({
   name: 'modal',
   initialState: {
     modalShow: false,
@@ -67,12 +64,12 @@ const modal = createSlice({
   },
 });
 
-export const channelsActions = channels.actions;
-export const messagesActions = messages.actions;
-export const modalActions = modal.actions;
+export const channelsActions = channelsSlice.actions;
+export const messagesActions = messagesSlice.actions;
+export const modalActions = modalSlice.actions;
 
 export default {
-  channels: channels.reducer,
-  messages: messages.reducer,
-  modal: modal.reducer,
+  channels: channelsSlice.reducer,
+  messages: messagesSlice.reducer,
+  modal: modalSlice.reducer,
 };

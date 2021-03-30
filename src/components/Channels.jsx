@@ -2,8 +2,8 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { channelsSelectors } from '../selectors/index.js';
-import { channelsActions, modalActions } from '../store/index.js';
+import { channelsSelectors } from '../store/selectors.js';
+import { channelsActions, modalActions } from '../store/slices.js';
 
 import ChannelsModal from './channelsModals/index.jsx';
 import ChannelsList from './ChannelsList.jsx';

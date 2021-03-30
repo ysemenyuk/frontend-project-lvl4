@@ -1,6 +1,9 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import { adapterChannelsSelectors, adapterMessagesSelectors } from '../store/index.js';
+import chatAdapter from './adapter.js';
+
+const adapterChannelsSelectors = chatAdapter.getSelectors((state) => state.channels);
+const adapterMessagesSelectors = chatAdapter.getSelectors((state) => state.messages);
 
 const selectCurrentChannelId = (state) => state.channels.currentChannelId;
 

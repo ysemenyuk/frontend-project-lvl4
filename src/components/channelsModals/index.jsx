@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react';
+import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Modal } from 'react-bootstrap';
 
-import { modalActions } from '../../store/index.js';
-import { selectModal, channelsSelectors } from '../../selectors/index.js';
-import channelValidationSchema from './validationSchema.js';
+import { modalActions } from '../../store/slices.js';
+import { selectModal, channelsSelectors } from '../../store/selectors.js';
 
 import AddChannel from './AddChannel.jsx';
 import RemoveChannel from './RemoveChannel.jsx';
@@ -17,12 +17,20 @@ const modals = {
   renaming: RenameChannel,
 };
 
+const channelNameValidationSchema = (channelsNames) => Yup.object({
+  text: Yup.string()
+    .min(3)
+    .max(30)
+    .required()
+    .notOneOf(channelsNames),
+});
+
 const ChannelsModal = () => {
   const dispatch = useDispatch();
   const { modalShow, modalType, modalData } = useSelector(selectModal);
   const channelsNames = useSelector(channelsSelectors.selectAllChannelsNames);
 
-  const memoizedValidationSchema = useMemo(() => channelValidationSchema(channelsNames),
+  const validationSchema = useMemo(() => channelNameValidationSchema(channelsNames),
     [channelsNames]);
 
   const handleCloseModal = () => {
@@ -39,7 +47,7 @@ const ChannelsModal = () => {
     <Modal show={modalShow} onHide={handleCloseModal}>
       <ModalBody
         modalData={modalData}
-        validationSchema={memoizedValidationSchema}
+        validationSchema={validationSchema}
         onCloseModal={handleCloseModal}
       />
     </Modal>

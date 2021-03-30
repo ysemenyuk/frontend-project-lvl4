@@ -17,11 +17,11 @@ import gon from 'gon';
 import initApp from './initApp.jsx';
 import initRollbar from './rollbar.js';
 import initSocket from './socket.js';
-import getUserName from './getUserName.js';
+import setUserName from './setUserName.js';
 import i18n from './i18n.js';
 
 import yupLocale from './locales/yupLocale.js';
-import reducer from './store/index.js';
+import reducer from './store/slices.js';
 
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
@@ -45,7 +45,7 @@ setLocale(yupLocale);
 initSocket(store);
 
 const loggerContextValue = { rollbar: initRollbar() };
-const userContextValue = { nickname: getUserName() };
+const userContextValue = { nickname: setUserName() };
 
 ReactDOM.render(
   initApp(store, loggerContextValue, userContextValue, i18n),

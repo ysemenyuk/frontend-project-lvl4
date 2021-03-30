@@ -1,6 +1,6 @@
 import { io } from 'socket.io-client';
 
-import { channelsActions, messagesActions } from './store/index.js';
+import { channelsActions, messagesActions } from './store/slices.js';
 
 export default (store) => {
   const socket = io();

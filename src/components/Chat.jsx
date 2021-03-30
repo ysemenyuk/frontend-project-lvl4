@@ -5,7 +5,7 @@ import { Badge } from 'react-bootstrap';
 import ChatForm from './ChatForm.jsx';
 import ChatList from './ChatList.jsx';
 
-import { channelsSelectors, messagesSelectors } from '../selectors/index.js';
+import { channelsSelectors, messagesSelectors } from '../store/selectors.js';
 
 const Chat = () => {
   const messages = useSelector(messagesSelectors.selectCurrentChannelMessages);
