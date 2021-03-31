@@ -17,16 +17,14 @@ const RemoveChannel = (props) => {
     initialValues: {
       text: modalData.name,
     },
-    onSubmit: (values, { setSubmitting, resetForm, setFieldError }) => {
+    onSubmit: (values, { setFieldError }) => {
       const url = routes.channelPath(modalData.id);
-      axios.delete(url)
+      return axios
+        .delete(url)
         .then(() => {
-          setSubmitting(false);
-          resetForm();
           onCloseModal();
         })
         .catch((err) => {
-          setSubmitting(false);
           setFieldError('network', err.message);
         });
     },

@@ -16,9 +16,7 @@ const AddChannel = (props) => {
   const inputRef = useRef();
 
   useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
+    inputRef?.current.focus();
   });
 
   const formik = useFormik({
@@ -27,20 +25,18 @@ const AddChannel = (props) => {
     },
     validationSchema,
     validateOnChange: false,
-    onSubmit: (values, { setSubmitting, resetForm, setFieldError }) => {
+    onSubmit: (values, { setFieldError }) => {
       const url = routes.channelsPath();
-      axios.post(url, {
-        data: {
-          attributes: { name: values.text },
-        },
-      })
+      return axios
+        .post(url, {
+          data: {
+            attributes: { name: values.text },
+          },
+        })
         .then(() => {
-          setSubmitting(false);
-          resetForm();
           onCloseModal();
         })
         .catch((err) => {
-          setSubmitting(false);
           setFieldError('network', err.message);
         });
     },
@@ -62,9 +58,9 @@ const AddChannel = (props) => {
               type="text"
               ref={inputRef}
               onChange={formik.handleChange}
+              disabled={formik.isSubmitting}
               value={formik.values.text}
-              // disabled={formik.isSubmitting}
-              isInvalid={formik.errors.text || formik.errors.network}
+              isInvalid={!!formik.errors.text || !!formik.errors.network}
             />
             <Form.Control.Feedback type="invalid">
               {formik.errors.text ? t(formik.errors.text.key) : null}

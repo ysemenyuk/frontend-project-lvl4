@@ -16,11 +16,11 @@ const RenameChannel = (props) => {
   const inputRef = useRef();
 
   useEffect(() => {
-    inputRef.current.select();
+    inputRef?.current.select();
   }, []);
 
   useEffect(() => {
-    inputRef.current.focus();
+    inputRef?.current.focus();
   });
 
   const formik = useFormik({
@@ -29,20 +29,18 @@ const RenameChannel = (props) => {
     },
     validationSchema,
     validateOnChange: false,
-    onSubmit: (values, { setSubmitting, resetForm, setFieldError }) => {
+    onSubmit: (values, { setFieldError }) => {
       const url = routes.channelPath(modalData.id);
-      axios.patch(url, {
-        data: {
-          attributes: { name: values.text },
-        },
-      })
+      return axios
+        .patch(url, {
+          data: {
+            attributes: { name: values.text },
+          },
+        })
         .then(() => {
-          setSubmitting(false);
-          resetForm();
           onCloseModal();
         })
         .catch((err) => {
-          setSubmitting(false);
           setFieldError('network', err.message);
         });
     },

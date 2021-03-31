@@ -58,7 +58,7 @@ const modalSlice = createSlice({
     },
     closeModal: (state) => {
       state.modalShow = false;
-      state.modalTitle = null;
+      state.modalType = null;
       state.modalData = null;
     },
   },
