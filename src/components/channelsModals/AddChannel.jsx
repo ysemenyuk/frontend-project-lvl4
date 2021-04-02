@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
@@ -8,10 +9,16 @@ import {
 } from 'react-bootstrap';
 
 import routes from '../../routes.js';
+import { channelsSelectors } from '../../store/selectors.js';
+import channelValidationSchema from './channelValidationSchema.js';
 
 const AddChannel = (props) => {
-  const { onCloseModal, validationSchema } = props;
+  const { onCloseModal } = props;
   const { t } = useTranslation();
+
+  const channelsNames = useSelector(channelsSelectors.selectAllChannelsNames);
+  const validationSchema = useMemo(() => channelValidationSchema(channelsNames),
+    [channelsNames]);
 
   const inputRef = useRef();
 

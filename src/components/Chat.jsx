@@ -1,15 +1,20 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { Badge } from 'react-bootstrap';
 
 import ChatForm from './ChatForm.jsx';
-import ChatList from './ChatList.jsx';
+import ChatItem from './ChatItem.jsx';
 
 import { channelsSelectors, messagesSelectors } from '../store/selectors.js';
 
 const Chat = () => {
   const messages = useSelector(messagesSelectors.selectCurrentChannelMessages);
   const channel = useSelector(channelsSelectors.selectCurrentChannel);
+  const messagesContainer = useRef();
+
+  useEffect(() => {
+    messagesContainer.current.scrollTop = messagesContainer.current.scrollHeight;
+  }, [messages]);
 
   return (
     <div className="d-flex flex-column h-100">
@@ -20,7 +25,11 @@ const Chat = () => {
           <Badge variant="info">{`#${channel.name}`}</Badge>
         </h5>
       </div>
-      <ChatList messages={messages} />
+      <div ref={messagesContainer} className="overflow-auto mt-auto">
+        {messages.map((message) => (
+          <ChatItem key={message.id} message={message} />
+        ))}
+      </div>
       <ChatForm channel={channel} />
     </div>
   );

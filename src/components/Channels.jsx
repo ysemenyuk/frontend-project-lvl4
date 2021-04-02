@@ -5,8 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { channelsSelectors } from '../store/selectors.js';
 import { channelsActions, modalActions } from '../store/slices.js';
 
-import ChannelsModal from './channelsModals/index.jsx';
-import ChannelsList from './ChannelsList.jsx';
+import ChannelsItem from './ChannelsItem.jsx';
 
 const Channels = () => {
   const dispatch = useDispatch();
@@ -42,14 +41,19 @@ const Channels = () => {
           {t('addChannel')}
         </button>
       </div>
-      <ChannelsList
-        currentChannel={currentChannel}
-        channels={channels}
-        onSelectChannel={handleSelectChannel}
-        onRemoveChannel={handleRemoveChannel}
-        onRenameChannel={handleRenameChannel}
-      />
-      <ChannelsModal />
+      <ul className="nav flex-column nav-pills nav-fill">
+        {channels.map((channel) => (
+          <li key={channel.id} className="nav-item">
+            <ChannelsItem
+              channel={channel}
+              currentChannel={currentChannel}
+              onSelectChannel={handleSelectChannel}
+              onRemoveChannel={handleRemoveChannel}
+              onRenameChannel={handleRenameChannel}
+            />
+          </li>
+        ))}
+      </ul>
     </>
   );
 };
