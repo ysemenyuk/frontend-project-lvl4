@@ -6,14 +6,15 @@ import { Modal } from 'react-bootstrap';
 import { modalActions } from '../store/slices.js';
 import { selectModal } from '../store/selectors.js';
 
-import AddChannel from './channelsModals/AddChannel.jsx';
+// import AddChannel from './channelsModals/AddChannel.jsx';
+// import RenameChannel from './channelsModals/RenameChannel.jsx';
 import RemoveChannel from './channelsModals/RemoveChannel.jsx';
-import RenameChannel from './channelsModals/RenameChannel.jsx';
+import AddOrRenameChannel from './channelsModals/AddOrRenameChannel.jsx';
 
 const modals = {
-  adding: AddChannel,
+  adding: AddOrRenameChannel,
   removing: RemoveChannel,
-  renaming: RenameChannel,
+  renaming: AddOrRenameChannel,
 };
 
 const ChannelsModal = () => {

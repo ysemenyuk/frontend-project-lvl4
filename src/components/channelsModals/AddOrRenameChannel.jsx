@@ -13,7 +13,7 @@ import { channelsSelectors } from '../../store/selectors.js';
 import channelValidationSchema from './channelValidationSchema.js';
 
 const AddChannel = (props) => {
-  const { onCloseModal } = props;
+  const { modalData, onCloseModal } = props;
   const { t } = useTranslation();
 
   const channelsNames = useSelector(channelsSelectors.selectAllChannelsNames);
@@ -23,16 +23,36 @@ const AddChannel = (props) => {
   const inputRef = useRef();
 
   useEffect(() => {
+    inputRef?.current.select();
+  }, []);
+
+  useEffect(() => {
     inputRef?.current.focus();
   });
 
   const formik = useFormik({
     initialValues: {
-      text: '',
+      text: modalData ? modalData.name : '',
     },
     validationSchema,
     validateOnChange: false,
     onSubmit: (values, { setFieldError }) => {
+      if (modalData) {
+        const url = routes.channelPath(modalData.id);
+        return axios
+          .patch(url, {
+            data: {
+              attributes: { name: values.text },
+            },
+          })
+          .then(() => {
+            onCloseModal();
+          })
+          .catch((err) => {
+            setFieldError('network', err.message);
+          });
+      }
+
       const url = routes.channelsPath();
       return axios
         .post(url, {
@@ -52,7 +72,7 @@ const AddChannel = (props) => {
   return (
     <>
       <Modal.Header closeButton>
-        <Modal.Title>{t('addChannel')}</Modal.Title>
+        <Modal.Title>{modalData ? t('renameChannel') : t('addChannel')}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
