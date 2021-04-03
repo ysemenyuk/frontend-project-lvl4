@@ -8,7 +8,7 @@ import ChatItem from './ChatItem.jsx';
 import { channelsSelectors, messagesSelectors } from '../store/selectors.js';
 
 const Chat = () => {
-  const messages = useSelector(messagesSelectors.selectCurrentChannelMessages);
+  const messages = useSelector(messagesSelectors.selectByCurrentChannel);
   const channel = useSelector(channelsSelectors.selectCurrentChannel);
   const messagesContainer = useRef();
 

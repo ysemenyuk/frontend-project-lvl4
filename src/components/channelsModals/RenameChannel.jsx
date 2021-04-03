@@ -18,9 +18,11 @@ const RenameChannel = (props) => {
 
   const inputRef = useRef();
 
-  const channelsNames = useSelector(channelsSelectors.selectAllChannelsNames);
-  const validationSchema = useMemo(() => channelValidationSchema(channelsNames),
-    [channelsNames]);
+  const channelsNames = useSelector(channelsSelectors.selectAllNames);
+  const validationSchema = useMemo(
+    () => channelValidationSchema(channelsNames),
+    [channelsNames],
+  );
 
   useEffect(() => {
     inputRef?.current.select();
@@ -61,7 +63,6 @@ const RenameChannel = (props) => {
 
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
-
           <Form.Group>
             <Form.Label>{t('channelName')}</Form.Label>
             <Form.Control
@@ -74,27 +75,38 @@ const RenameChannel = (props) => {
               isInvalid={!!formik.errors.text || !!formik.errors.network}
             />
             <Form.Control.Feedback type="invalid">
-              {formik.errors.text ? t(formik.errors.text.key) : null}
+              {formik.errors.text && t(formik.errors.text.key)}
               {formik.errors.network}
             </Form.Control.Feedback>
           </Form.Group>
 
           <div className="d-flex justify-content-end">
-            <Button variant="secondary" className="mr-1" disabled={formik.isSubmitting} onClick={onCloseModal}>
+            <Button
+              variant="secondary"
+              className="mr-1"
+              disabled={formik.isSubmitting}
+              onClick={onCloseModal}
+            >
               {t('cancle')}
             </Button>
-            <Button variant="primary" className="mr-1" disabled={formik.isSubmitting} type="submit">
+            <Button
+              variant="primary"
+              className="mr-1"
+              disabled={formik.isSubmitting}
+              type="submit"
+            >
               {t('submit')}
               {' '}
               <Spinner
-                style={{ display: formik.isSubmitting ? 'inline-block' : 'none' }}
+                style={{
+                  display: formik.isSubmitting ? 'inline-block' : 'none',
+                }}
                 as="span"
                 animation="border"
                 size="sm"
               />
             </Button>
           </div>
-
         </Form>
       </Modal.Body>
     </>

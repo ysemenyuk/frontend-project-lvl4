@@ -6,15 +6,14 @@ import { Modal } from 'react-bootstrap';
 import { modalActions } from '../store/slices.js';
 import { selectModal } from '../store/selectors.js';
 
-// import AddChannel from './channelsModals/AddChannel.jsx';
-// import RenameChannel from './channelsModals/RenameChannel.jsx';
+import AddChannel from './channelsModals/AddChannel.jsx';
+import RenameChannel from './channelsModals/RenameChannel.jsx';
 import RemoveChannel from './channelsModals/RemoveChannel.jsx';
-import AddOrRenameChannel from './channelsModals/AddOrRenameChannel.jsx';
 
 const modals = {
-  adding: AddOrRenameChannel,
+  adding: AddChannel,
   removing: RemoveChannel,
-  renaming: AddOrRenameChannel,
+  renaming: RenameChannel,
 };
 
 const ChannelsModal = () => {
@@ -33,10 +32,7 @@ const ChannelsModal = () => {
 
   return (
     <Modal show={modalShow} onHide={handleCloseModal}>
-      <ModalBody
-        modalData={modalData}
-        onCloseModal={handleCloseModal}
-      />
+      <ModalBody modalData={modalData} onCloseModal={handleCloseModal} />
     </Modal>
   );
 };

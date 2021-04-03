@@ -7,7 +7,7 @@ const adapterMessagesSelectors = chatAdapter.getSelectors((state) => state.messa
 
 const selectCurrentChannelId = (state) => state.channels.currentChannelId;
 
-const selectAllChannelsNames = createSelector(
+const selectAllNames = createSelector(
   adapterChannelsSelectors.selectAll,
   (channels) => channels.map(({ name }) => name),
 );
@@ -18,16 +18,16 @@ const selectCurrentChannel = createSelector(
   (channels, channelId) => channels.find((ch) => ch.id === channelId),
 );
 
-const selectCurrentChannelMessages = createSelector(
+const selectByCurrentChannel = createSelector(
   adapterMessagesSelectors.selectAll,
   selectCurrentChannelId,
   (messages, channelId) => messages.filter((m) => m.channelId === channelId),
 );
 
 export const channelsSelectors = {
-  ...adapterChannelsSelectors, selectAllChannelsNames, selectCurrentChannel,
+  ...adapterChannelsSelectors, selectAllNames, selectCurrentChannel,
 };
 
-export const messagesSelectors = { ...adapterMessagesSelectors, selectCurrentChannelMessages };
+export const messagesSelectors = { ...adapterMessagesSelectors, selectByCurrentChannel };
 
 export const selectModal = (state) => state.modal;

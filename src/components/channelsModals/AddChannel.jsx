@@ -16,7 +16,7 @@ const AddChannel = (props) => {
   const { onCloseModal } = props;
   const { t } = useTranslation();
 
-  const channelsNames = useSelector(channelsSelectors.selectAllChannelsNames);
+  const channelsNames = useSelector(channelsSelectors.selectAllNames);
   const validationSchema = useMemo(() => channelValidationSchema(channelsNames),
     [channelsNames]);
 
