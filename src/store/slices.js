@@ -12,7 +12,10 @@ const channelsSlice = createSlice({
     selectChannel: (state, action) => {
       state.currentChannelId = action.payload;
     },
-    addChannel: chatAdapter.addOne,
+    addChannel: (state, action) => {
+      chatAdapter.addOne(state, action);
+      state.currentChannelId = action.payload.id;
+    },
     removeChannel: (state, action) => {
       if (action.payload === state.currentChannelId) {
         state.currentChannelId = 1;
